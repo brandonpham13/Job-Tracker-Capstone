@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application Details</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-left">
+        <img
+          src="../images/clipboard.png"
+          alt="clipboad with resumes and applications"
+          class="clipboard-image"
+        />
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li>My Applications</li>
+          <li>Contacts</li>
+          <li>Trends</li>
+          <li>Logout</li>
+        </ul>
+      </div>
+    </nav>
+    <main class="edit-application">
+      <h1>Application Details</h1>
+      <p>View and update details of your application.</p>
+      <form class="edit-application-form">
+        <div class="edit-application-form-row">
+          <label for="position-name">Position Name</label>
+          <input required id="position-name" type="text" name="position-name" />
+        </div>
+        <div class="edit-application-form-row">
+          <label for="organization">Organization</label>
+          <input required id="organization" type="text" name="organization" />
+        </div>
+        <div class="edit-application-form-row">
+          <label for="status">Status</label>
+          <input required id="status" type="text" name="status" />
+        </div>
+        <p>Required Skills</p>
+        <div class="edit-application-form-row">
+          <label for="skill-1">Skill 1</label>
+          <input required id="skill-1" type="text" name="skill-1" />
+        </div>
+        <div class="edit-application-form-row">
+          <label for="skill-2">Skill 2</label>
+          <input required id="skill-2" type="text" name="skill-2" />
+        </div>
+        <div class="edit-application-form-row">
+          <label for="skill-3">Skill 3</label>
+          <input required id="skill-3" type="text" name="skill-3" />
+        </div>
+        <button type="submit">Update</button>
+      </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Contact</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-left">
+        <img
+          src="../images/contact_cubes.png"
+          alt="cubes with email and phone symbols"
+          class="clipboard-image"
+        />
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li>My Applications</li>
+          <li>Contacts</li>
+          <li>Trends</li>
+          <li>Logout</li>
+        </ul>
+      </div>
+    </nav>
+    <main class="add-contact">
+      <h1>Add a Contact</h1>
+      <p>
+        Fill in the information for the contact you would like to record. The
+        only required field is the contact name. Once you submit the contact it
+        will be added to your library.
+      </p>
+      <form class="add-contact-form">
+        <div class="add-contact-form-row">
+          <label for="contact-name">Contact Name</label>
+          <input
+            required
+            id="contact-name"
+            type="text"
+            placeholder="Contact Name"
+          />
+        </div>
+        <div class="add-contact-form-row">
+          <label for="organization">Organization</label>
+          <input
+            id="organization"
+            type="text"
+            placeholder="Company or Organization"
+          />
+        </div>
+        <div class="add-contact-form-row">
+          <label for="phone-number">Phone Number</label>
+          <input id="phone-number" type="tel" placeholder="123-456-7890" />
+        </div>
+        <div class="add-contact-form-row">
+          <label for="email">E-Mail Address</label>
+          <input id="email" type="email" placeholder="email@email.com" />
+        </div>
+        <div class="add-contact-form-row">
+          <label for="notes">Interaction Notes</label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="5"
+            placeholder="Notes"
+          ></textarea>
+        </div>
+        <button type="submit">Submit Contact</button>
+      </form>
+    </main>
+  </body>
+</html>

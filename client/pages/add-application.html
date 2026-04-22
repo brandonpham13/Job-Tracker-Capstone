@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Application</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-left">
+        <img
+          src="../images/clipboard.png"
+          alt="clipboad with resumes and applications"
+          class="clipboard-image"
+        />
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li>My Applications</li>
+          <li>Contacts</li>
+          <li>Trends</li>
+          <li>Logout</li>
+        </ul>
+      </div>
+    </nav>
+    <main class="add-application">
+      <h1>Add an Application</h1>
+      <p>
+        Fill in the information for the application you would like to record.
+        The only required field is the position name. Once you submit the
+        application it will be added to your library.
+      </p>
+      <form class="add-application-form">
+        <div class="add-application-form-row">
+          <label for="position-name">Position Name</label>
+          <input
+            id="position-name"
+            required
+            type="text"
+            placeholder="Position Name"
+          />
+        </div>
+        <div class="add-application-form-row">
+          <label for="organization">Organization</label>
+          <input
+            id="organization"
+            type="text"
+            placeholder="Company or Organization"
+          />
+        </div>
+        <div class="add-application-form-row">
+          <label for="status">Status</label>
+          <input id="status" type="text" placeholder="Application Status" />
+        </div>
+        <p>Required Skills</p>
+        <div class="add-application-form-row">
+          <label for="skill-1">Skill 1</label>
+          <input id="skill-1" type="text" placeholder="skill" />
+        </div>
+        <div class="add-application-form-row">
+          <label for="skill-2">Skill 2</label>
+          <input id="skill-2" type="text" placeholder="skill" />
+        </div>
+        <div class="add-application-form-row">
+          <label for="skill-3">Skill 3</label>
+          <input id="skill-3" type="text" placeholder="skill" />
+        </div>
+        <button type="submit">Submit Application</button>
+      </form>
+    </main>
+  </body>
+</html>
