@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Details</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-left">
+        <img
+          src="../images/contact_cubes.png"
+          alt="cubes with email and phone symbols"
+          class="clipboard-image"
+        />
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li>My Applications</li>
+          <li>Contacts</li>
+          <li>Trends</li>
+          <li>Logout</li>
+        </ul>
+      </div>
+    </nav>
+    <main class="edit-contact">
+      <h1>Contact Details</h1>
+      <p>View and update details of your contact.</p>
+      <form class="edit-contact-form">
+        <div class="edit-contact-form-row">
+          <label for="contact-name">Contact Name</label>
+          <input
+            required
+            id="contact-name"
+            type="text"
+            name="contact-name"
+            placeholder="Contact Name"
+          />
+        </div>
+        <div class="edit-contact-form-row">
+          <label for="organization">Organization</label>
+          <input
+            required
+            id="organization"
+            type="text"
+            name="organization"
+            placeholder="Company or Organization"
+          />
+        </div>
+        <div class="edit-contact-form-row">
+          <label for="phone-number">Phone Number</label>
+          <input
+            required
+            id="phone-number"
+            type="tel"
+            name="phone-number"
+            placeholder="123-456-7890"
+          />
+        </div>
+        <div class="edit-contact-form-row">
+          <label for="email">E-Mail Address</label>
+          <input
+            required
+            id="email"
+            type="email"
+            name="email"
+            placeholder="email@email.com"
+          />
+        </div>
+        <div class="edit-contact-form-row">
+          <label for="notes">Interaction Notes</label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="5"
+            placeholder="Notes"
+          ></textarea>
+        </div>
+        <button type="submit">Update</button>
+      </form>
+    </main>
+  </body>
+</html>
