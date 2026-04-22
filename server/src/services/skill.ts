@@ -1,14 +1,6 @@
 import { Skill } from "../models/Skill.js";
 import { SkillStore } from "../store/skill.js";
 
-export interface SkillFrequency {
-  skillId: string;
-  name: string;
-  jobCount: number;
-  totalJobs: number;
-  percentage: number;
-}
-
 export class SkillService {
   constructor(private readonly skillStore: SkillStore) {}
 
@@ -37,10 +29,6 @@ export class SkillService {
   }
 
   async detachFromJob(_userId: string, _jobId: string, _skillId: string): Promise<void> {
-    throw new Error("TODO");
-  }
-
-  async getFrequencyStats(_userId: string): Promise<SkillFrequency[]> {
     throw new Error("TODO");
   }
 }
