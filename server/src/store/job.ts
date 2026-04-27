@@ -1,26 +1,29 @@
-import { Job } from "../models/Job.js";
+import type { PrismaClient, Job } from "@prisma/client";
 
 /**
  * Class used to store and retrieve jobs from the database.
  */
 export class JobStore {
-  async findById(_id: string): Promise<Job | null> {
-    throw new Error("Not implemented");
-  }
+    constructor(private readonly prisma: PrismaClient) { }
 
-  async findAllByUser(_userId: string): Promise<Job[]> {
-    throw new Error("Not implemented");
-  }
+    async findById(id: string): Promise<Job | null> {
+        return this.prisma.job.findUnique({ where: { id } });
+    }
 
-  async create(_job: Job): Promise<Job> {
-    throw new Error("Not implemented");
-  }
+    async findAllByUser(userId: string): Promise<Job[]> {
+        return this.prisma.job.findMany({ where: { userId } });
+    }
 
-  async update(_job: Job): Promise<Job> {
-    throw new Error("Not implemented");
-  }
+    async create(data: Omit<Job, "id" | "createdAt" | "updatedAt">): Promise<Job> {
+        return this.prisma.job.create({ data });
+    }
 
-  async delete(_id: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async update(id: string, data: Partial<Omit<Job, "id" | "userId" | "createdAt" | "updatedAt">>): Promise<Job> {
+        return this.prisma.job.update({ where: { id }, data });
+    }
+
+    async delete(id: string): Promise<void> {
+        await this.prisma.job.delete({ where: { id } });
+    }
 }
+

@@ -1,38 +1,49 @@
-import { Skill } from "../models/Skill.js";
+import type { PrismaClient, Skill } from "@prisma/client";
 
 /**
  * Class used to store and retrieve skills from the database.
  */
 export class SkillStore {
-  async findById(_id: string): Promise<Skill | null> {
-    throw new Error("Not implemented");
-  }
+    constructor(private readonly prisma: PrismaClient) { }
 
-  async findAllByUser(_userId: string): Promise<Skill[]> {
-    throw new Error("Not implemented");
-  }
+    async findById(id: string): Promise<Skill | null> {
+        return this.prisma.skill.findUnique({ where: { id } });
+    }
 
-  async findAllByJob(_jobId: string): Promise<Skill[]> {
-    throw new Error("Not implemented");
-  }
+    async findAllByUser(userId: string): Promise<Skill[]> {
+        return this.prisma.skill.findMany({ where: { userId } });
+    }
 
-  async create(_skill: Skill): Promise<Skill> {
-    throw new Error("Not implemented");
-  }
+    async findAllByJob(jobId: string): Promise<Skill[]> {
+        return this.prisma.skill.findMany({
+            where: { jobs: { some: { id: jobId } } },
+        });
+    }
 
-  async update(_skill: Skill): Promise<Skill> {
-    throw new Error("Not implemented");
-  }
+    async create(data: Omit<Skill, "id" | "createdAt" | "updatedAt">): Promise<Skill> {
+        return this.prisma.skill.create({ data });
+    }
 
-  async delete(_id: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async update(id: string, data: Partial<Omit<Skill, "id" | "userId" | "createdAt" | "updatedAt">>): Promise<Skill> {
+        return this.prisma.skill.update({ where: { id }, data });
+    }
 
-  async linkToJob(_jobId: string, _skillId: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async delete(id: string): Promise<void> {
+        await this.prisma.skill.delete({ where: { id } });
+    }
 
-  async unlinkFromJob(_jobId: string, _skillId: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async linkToJob(jobId: string, skillId: string): Promise<void> {
+        await this.prisma.job.update({
+            where: { id: jobId },
+            data: { skills: { connect: { id: skillId } } },
+        });
+    }
+
+    async unlinkFromJob(jobId: string, skillId: string): Promise<void> {
+        await this.prisma.job.update({
+            where: { id: jobId },
+            data: { skills: { disconnect: { id: skillId } } },
+        });
+    }
 }
+

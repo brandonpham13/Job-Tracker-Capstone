@@ -1,26 +1,38 @@
-import { Job } from "../models/Job.js";
-import { JobStore } from "../store/job.js";
+import type { Job } from "@prisma/client";
+import type { JobStore } from "../store/job.js";
 
 export class JobService {
-  constructor(private readonly jobStore: JobStore) {}
+    constructor(private readonly jobStore: JobStore) { }
 
-  async list(_userId: string): Promise<Job[]> {
-    throw new Error("TODO");
-  }
+    async list(userId: string): Promise<Job[]> {
+        return this.jobStore.findAllByUser(userId);
+    }
 
-  async getById(_userId: string, _id: string): Promise<Job | null> {
-    throw new Error("TODO");
-  }
+    async getById(userId: string, id: string): Promise<Job | null> {
+        const job = await this.jobStore.findById(id);
+        if (!job || job.userId !== userId) return null;
+        return job;
+    }
 
-  async create(_userId: string, _data: Omit<Job, "id" | "userId" | "createdAt" | "updatedAt">): Promise<Job> {
-    throw new Error("TODO");
-  }
+    async create(userId: string, data: Omit<Job, "id" | "userId" | "createdAt" | "updatedAt">): Promise<Job> {
+        return this.jobStore.create({ ...data, userId });
+    }
 
-  async update(_userId: string, _id: string, _updates: Partial<Job>): Promise<Job> {
-    throw new Error("TODO");
-  }
+    async update(userId: string, id: string, updates: Partial<Omit<Job, "id" | "userId" | "createdAt" | "updatedAt">>): Promise<Job> {
+        const job = await this.jobStore.findById(id);
+        if (!job || job.userId !== userId) {
+            throw new Error(`Job with id ${id} not found`);
+        }
 
-  async delete(_userId: string, _id: string): Promise<void> {
-    throw new Error("TODO");
-  }
+        return this.jobStore.update(id, updates);
+    }
+
+    async delete(userId: string, id: string): Promise<void> {
+        const job = await this.jobStore.findById(id);
+        if (!job || job.userId !== userId) {
+            throw new Error(`Job with id ${id} not found`);
+        }
+
+        return this.jobStore.delete(id);
+    }
 }

@@ -1,38 +1,49 @@
-import { Contact } from "../models/Contact.js";
+import type { PrismaClient, Contact } from "@prisma/client";
 
 /**
- * Class used to store and retrieve contacts from the database. 
+ * Class used to store and retrieve contacts from the database.
  */
 export class ContactStore {
-  async findById(_id: string): Promise<Contact | null> {
-    throw new Error("Not implemented");
-  }
+    constructor(private readonly prisma: PrismaClient) { }
 
-  async findAllByUser(_userId: string): Promise<Contact[]> {
-    throw new Error("Not implemented");
-  }
+    async findById(id: string): Promise<Contact | null> {
+        return this.prisma.contact.findUnique({ where: { id } });
+    }
 
-  async findAllByJob(_jobId: string): Promise<Contact[]> {
-    throw new Error("Not implemented");
-  }
+    async findAllByUser(userId: string): Promise<Contact[]> {
+        return this.prisma.contact.findMany({ where: { userId } });
+    }
 
-  async create(_contact: Contact): Promise<Contact> {
-    throw new Error("Not implemented");
-  }
+    async findAllByJob(jobId: string): Promise<Contact[]> {
+        return this.prisma.contact.findMany({
+            where: { jobs: { some: { id: jobId } } },
+        });
+    }
 
-  async update(_contact: Contact): Promise<Contact> {
-    throw new Error("Not implemented");
-  }
+    async create(data: Omit<Contact, "id" | "createdAt" | "updatedAt">): Promise<Contact> {
+        return this.prisma.contact.create({ data });
+    }
 
-  async delete(_id: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async update(id: string, data: Partial<Omit<Contact, "id" | "userId" | "createdAt" | "updatedAt">>): Promise<Contact> {
+        return this.prisma.contact.update({ where: { id }, data });
+    }
 
-  async linkToJob(_jobId: string, _contactId: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async delete(id: string): Promise<void> {
+        await this.prisma.contact.delete({ where: { id } });
+    }
 
-  async unlinkFromJob(_jobId: string, _contactId: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async linkToJob(jobId: string, contactId: string): Promise<void> {
+        await this.prisma.job.update({
+            where: { id: jobId },
+            data: { contacts: { connect: { id: contactId } } },
+        });
+    }
+
+    async unlinkFromJob(jobId: string, contactId: string): Promise<void> {
+        await this.prisma.job.update({
+            where: { id: jobId },
+            data: { contacts: { disconnect: { id: contactId } } },
+        });
+    }
 }
+
