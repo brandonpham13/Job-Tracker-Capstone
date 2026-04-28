@@ -142,7 +142,9 @@ button {
 }
 
 .new-application-btn,
-.new-contact-btn {
+.new-contact-btn,
+.registration-btn,
+.cancel-btn {
   display: inline-block;
   text-decoration: none;
   line-height: 35px;
