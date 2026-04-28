@@ -254,6 +254,11 @@ textarea {
   background-color: #e4f6fd;
 }
 
+.application-status {
+  width: 300px;
+  height: 35px;
+}
+
 /* =========================
    Tables
 ========================= */

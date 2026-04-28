@@ -33,31 +33,52 @@
       </p>
       <form class="add-contact-form">
         <div class="add-contact-form-row">
-          <label for="contact-name">Contact Name</label>
+          <label for="name">Contact Name</label>
           <input
             required
-            id="contact-name"
+            id="name"
             type="text"
+            name="name"
             placeholder="Contact Name"
           />
         </div>
-        <div class="add-contact-form-row">
-          <label for="organization">Organization</label>
+        <div class="edit-contact-form-row">
+          <label for="company">Company</label>
           <input
-            id="organization"
+            id="company"
             type="text"
+            name="company"
             placeholder="Company or Organization"
           />
         </div>
-        <div class="add-contact-form-row">
-          <label for="phone-number">Phone Number</label>
-          <input id="phone-number" type="tel" placeholder="123-456-7890" />
+        <div class="edit-contact-form-row">
+          <label for="role">Role</label>
+          <input
+            id="role"
+            type="text"
+            name="role"
+            placeholder="Contact's Role"
+          />
         </div>
-        <div class="add-contact-form-row">
+        <div class="edit-contact-form-row">
+          <label for="phone">Phone Number</label>
+          <input
+            id="phone"
+            type="tel"
+            name="phone"
+            placeholder="123-456-7890"
+          />
+        </div>
+        <div class="edit-contact-form-row">
           <label for="email">E-Mail Address</label>
-          <input id="email" type="email" placeholder="email@email.com" />
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="email@email.com"
+          />
         </div>
-        <div class="add-contact-form-row">
+        <div class="edit-contact-form-row">
           <label for="notes">Interaction Notes</label>
           <textarea
             id="notes"
@@ -69,7 +90,7 @@
         <button type="submit">Submit</button>
       </form>
 
-      <div class="success-overlay hiden">
+      <div class="success-overlay hidden">
         <div class="success-content">
           <p>You have successfully added a contact.</p>
           <div>

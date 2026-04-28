@@ -32,12 +32,17 @@
       </p>
       <form class="add-application-form">
         <div class="add-application-form-row">
-          <label for="position-name">Position Name</label>
+          <label for="title">Position Name</label>
+          <input id="title" required type="text" placeholder="Position Name" />
+        </div>
+        <div class="add-application-form-row">
+          <label for="type">Position Type</label>
           <input
-            id="position-name"
+            required
+            id="type"
             required
             type="text"
-            placeholder="Position Name"
+            placeholder="Position Type"
           />
         </div>
         <div class="add-application-form-row">
@@ -50,7 +55,41 @@
         </div>
         <div class="add-application-form-row">
           <label for="status">Status</label>
-          <input id="status" type="text" placeholder="Application Status" />
+          <select class="application-status" required>
+            <option value="">Select a status</option>
+            <option value="saved">Saved</option>
+            <option value="applied">Applied</option>
+            <option value="interviewing">Interviewing</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+            <option value="accepted">Accepted</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+        </div>
+        <div class="add-application-form-row">
+          <label for="location">Location</label>
+          <input id="location" type="text" placeholder="Location" />
+        </div>
+        <div class="add-application-form-row">
+          <label for="url">URL/Website</label>
+          <input id="url" type="url" placeholder="Website" />
+        </div>
+        <div class="add-application-form-row">
+          <label for="description">Description</label>
+          <input id="description" type="text" placeholder="Brief Description" />
+        </div>
+        <div class="add-application-form-row">
+          <label for="appliedAt">Date Applied</label>
+          <input id="appliedAt" type="datetime" placeholder="Date Applied" />
+        </div>
+        <div class="add-application-form-row">
+          <label for="notes">Notes</label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="5"
+            placeholder="Notes"
+          ></textarea>
         </div>
         <p>Required Skills</p>
         <div class="add-application-form-row">
