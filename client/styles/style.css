@@ -141,7 +141,8 @@ button {
   margin: 0;
 }
 
-.new-application-btn {
+.new-application-btn,
+.new-contact-btn {
   display: inline-block;
   text-decoration: none;
   line-height: 35px;
@@ -292,11 +293,6 @@ td a {
   width: 80%;
   display: flex;
   justify-content: space-between;
-}
-
-.button-row button {
-  width: 250px;
-  margin-bottom: 10px;
 }
 
 /* =========================
