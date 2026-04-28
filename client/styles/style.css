@@ -1,0 +1,365 @@
+/* =========================
+   Base / Global
+========================= */
+
+:root {
+  --font: Calibri, sans-serif;
+  --font-weight: 300;
+  --primary: #bcd2e1;
+  --dark: #0d877a;
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+  --panel-bg: #395c7b;
+  --text-light: white;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #0d877a, #bcd2e1);
+  font-family: var(--font);
+}
+
+/* Headings */
+h1,
+h2 {
+  font-size: 42px;
+  font-weight: var(--font-weight);
+  margin: 10;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-weight: var(--font-weight);
+}
+
+/* Paragraphs */
+p {
+  font-size: 20px;
+  font-weight: var(--font-weight);
+  width: 80%;
+  margin: 5;
+}
+
+.login h2 {
+  margin: 0px;
+}
+
+/* =========================
+   Layout Containers
+========================= */
+
+.login,
+.registration,
+.my-applications,
+.my-contacts,
+.add-application,
+.add-contact,
+.edit-application,
+.edit-contact,
+.summary-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =========================
+   Navigation
+========================= */
+
+.nav {
+  display: flex;
+  align-items: center;
+  height: 100px;
+  background: linear-gradient(0deg, #ebebeb, #6b7267);
+  border-bottom: solid;
+  font-size: 24px;
+  font-weight: 150;
+}
+
+.nav-left img {
+  height: 104px;
+  border-right: solid;
+  width: auto;
+}
+
+.nav-links {
+  width: 100%;
+  padding: 15px;
+}
+
+.nav-links ul {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  list-style: none;
+  margin: 10px;
+  padding: 25px;
+}
+
+/* =========================
+   Buttons (global)
+========================= */
+
+button {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: var(--font-weight);
+  height: 35px;
+  margin-top: 25px;
+  width: 45%;
+  cursor: pointer;
+}
+
+/* Primary buttons */
+.primary-btn {
+  background-color: var(--primary);
+  border: solid;
+}
+
+/* Secondary buttons */
+.secondary-btn {
+  background-color: var(--dark);
+  border: solid;
+}
+
+/* =========================
+   Login / Registration
+========================= */
+
+.login-banner {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.login-box,
+.registration-box {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background: #ebebeb;
+  border: solid;
+  padding: 20px;
+  gap: 15px;
+  align-items: center;
+}
+
+.login-box label,
+.registration-box label {
+  align-self: flex-start; /* overrides the center alignment of form */
+  font-size: 24px;
+  font-weight: var(--font-weight);
+}
+
+.login-box input,
+.registration-box input {
+  height: 35px;
+  background-color: #c1c6cc;
+}
+
+.login-box input {
+  width: 95%;
+}
+
+.registration-box input {
+  width: 70%;
+}
+
+.login-buttons,
+.registration-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* =========================
+   Forms (shared fix)
+========================= */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-application-form,
+.edit-application-form,
+.edit-contact-form,
+.add-contact-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  align-items: left;
+  gap: 15px;
+  padding: 20px;
+  margin: 0 auto;
+  font-size: 24px;
+  font-weight: var(--font-weight);
+}
+
+.registration-form-row,
+.add-application-form-row,
+.edit-application-form-row,
+.add-contact-form-row,
+.edit-contact-form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.registration-form-row label {
+  width: 30%;
+}
+
+input,
+textarea {
+  height: 35px;
+  width: 300px;
+  background-color: #e4f6fd;
+}
+
+/* =========================
+   Tables
+========================= */
+
+table {
+  width: 80%;
+  border-collapse: collapse;
+  font-size: 20px;
+}
+
+th,
+td {
+  border: solid;
+  padding: 10px;
+  text-align: center;
+  margin: 50px;
+}
+
+th {
+  font-weight: 700;
+}
+
+td {
+  color: white;
+  border-color: black;
+}
+
+td a {
+  color: white;
+}
+
+/* =========================
+   Buttons Row
+========================= */
+
+.button-row {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-row button {
+  width: 250px;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   Forms (Submit buttons)
+========================= */
+
+.add-application button,
+.edit-application button,
+.add-contact button,
+.edit-contact button {
+  width: 25%;
+  align-self: flex-end;
+  margin-top: 25px;
+  background-color: var(--dark);
+}
+
+.add-application button,
+.add-contact button {
+  width: 35%;
+}
+
+/* =========================
+   Summary Page
+========================= */
+
+.summary-data ul {
+  width: 85%;
+}
+
+.summary-data h2,
+.summary-data h3,
+.summary-data ul {
+  font-size: 36px;
+  width: 90%;
+}
+
+.summary-data h3,
+.summary-data ul {
+  font-size: 24px;
+  font-weight: 150;
+}
+
+/* =========================
+   Overlays / Modals
+========================= */
+
+.deleted-overlay,
+.success-overlay,
+.filter-sort-overlay,
+.select-data-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.success-content,
+.deleted-content,
+.filter-sort-content,
+.select-data-content {
+  background: var(--panel-bg);
+  color: var(--text-light);
+  padding: 20px 40px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================
+   Utility Fixes
+========================= */
+
+/* REMOVE invalid CSS fixes */
+.align-left {
+  justify-content: flex-start;
+}
+
+.app-intro,
+.registration-description,
+.edit-application p,
+.edit-contact p {
+  font-size: 24px;
+  font-weight: 150;
+  width: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
