@@ -12,7 +12,6 @@
         <img
           src="../images/clipboard.png"
           alt="clipboad with resumes and applications"
-          class="clipboard-image"
         />
       </div>
       <div class="nav-links">
@@ -66,8 +65,23 @@
           <label for="skill-3">Skill 3</label>
           <input id="skill-3" type="text" placeholder="skill" />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" class="submit-application">Submit</button>
       </form>
+      <div class="success-overlay hidden">
+        <div class="success-content">
+          <p>You have successfully added your application.</p>
+          <div>
+            <img
+              src="../images/checklist.png"
+              alt="hand check off to-do list"
+            />
+          </div>
+          <div>
+            <button class="close-modal secondary-btn">OK</button>
+          </div>
+        </div>
+      </div>
     </main>
+    <script src="../scripts/index.js"></script>
   </body>
 </html>

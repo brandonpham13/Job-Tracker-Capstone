@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Applications</title>
     <link rel="stylesheet" href="../styles/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
   <body>
     <nav class="nav">
@@ -27,23 +31,86 @@
     <main class="my-applications">
       <h1>My Applications</h1>
       <div class="button-row">
-        <button class="primary-btn">Filter/Sort</button>
-        <button class="primary-btn">New Application</button>
+        <button class="filter-sort-btn primary-btn">Filter/Sort</button>
+        <a href="add-application.html" class="new-application-btn primary-btn"
+          >New Application</a
+        >
       </div>
       <table>
         <thead>
           <tr>
+            <th></th>
             <th>Job/Internship</th>
             <th>Organization</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
+          <tr>
+            <td>
+              <button class="delete-btn">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+          </tr>
         </tbody>
       </table>
+      <div class="deleted-overlay hidden">
+        <div class="deleted-content">
+          <p>
+            Once you delete this application, you will be unable to re-add it.
+          </p>
+          <div>
+            <button class="confirm-delete secondary-btn">Delete</button>
+          </div>
+          <div>
+            <button class="cancel-delete secondary-btn">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-sort-overlay hidden">
+        <div class="filter-sort-content">
+          <p>Sorting</p>
+          <form>
+            <div class="filter-sort-modal-row">
+              <label>Sort by:</label>
+              <select>
+                <option value="">Select an option</option>
+              </select>
+            </div>
+            <p>Select the filters you would like to apply.</p>
+            <div class="filter-sort-modal-row">
+              <label>Job Status:</label>
+              <select>
+                <option value="">Select an option</option>
+              </select>
+            </div>
+            <div class="filter-sort-modal-row">
+              <label>Skill:</label>
+              <select>
+                <option value="">Select an option</option>
+              </select>
+            </div>
+            <div class="filter-sort-modal-row">
+              <label>Organization:</label>
+              <select>
+                <option value="">Select an option</option>
+              </select>
+            </div>
+            <div class="filter-sort-modal-row">
+              <button class="secondary-btn clear-filters">Clear Filters</button>
+              <button class="secondary-btn submit-filters" type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </main>
+    <script src="../scripts/index.js"></script>
   </body>
 </html>

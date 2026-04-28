@@ -8,7 +8,7 @@
   --primary: #bcd2e1;
   --dark: #0d877a;
   --overlay-bg: rgba(0, 0, 0, 0.4);
-  --panel-bg: #395c7b;
+  --panel-bg: #c1c6cc;
   --text-light: white;
 }
 
@@ -135,6 +135,25 @@ button {
   border: solid;
 }
 
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+}
+
+.new-application-btn {
+  display: inline-block;
+  text-decoration: none;
+  line-height: 35px;
+  width: 45%;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: var(--font-weight);
+}
+
 /* =========================
    Login / Registration
 ========================= */
@@ -215,7 +234,8 @@ form {
 .add-application-form-row,
 .edit-application-form-row,
 .add-contact-form-row,
-.edit-contact-form-row {
+.edit-contact-form-row,
+.filter-sort-modal-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -298,6 +318,10 @@ td a {
   width: 35%;
 }
 
+select {
+  width: 70%;
+}
+
 /* =========================
    Summary Page
 ========================= */
@@ -341,10 +365,22 @@ td a {
 .filter-sort-content,
 .select-data-content {
   background: var(--panel-bg);
-  color: var(--text-light);
   padding: 20px 40px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 55%;
+}
+
+.deleted-content p,
+.success-content p,
+.filter-sort-content p {
+  width: 100%;
+  text-align: center;
+  margin: 2 auto;
+}
+
+.hidden {
+  display: none;
 }
 
 /* =========================
