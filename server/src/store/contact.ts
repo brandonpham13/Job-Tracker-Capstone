@@ -1,49 +1,45 @@
 import type { PrismaClient, Contact } from "@prisma/client";
 
-/**
- * Class used to store and retrieve contacts from the database.
- */
 export class ContactStore {
     constructor(private readonly prisma: PrismaClient) { }
 
-    async findById(id: string): Promise<Contact | null> {
-        return this.prisma.contact.findUnique({ where: { id } });
+    async findById(contactId: string): Promise<Contact | null> {
+        return this.prisma.contact.findUnique({ where: { contact_id: contactId } });
     }
 
     async findAllByUser(userId: string): Promise<Contact[]> {
-        return this.prisma.contact.findMany({ where: { userId } });
+        return this.prisma.contact.findMany({ where: { user_id: userId } });
     }
 
-    async findAllByJob(jobId: string): Promise<Contact[]> {
-        return this.prisma.contact.findMany({
-            where: { jobs: { some: { id: jobId } } },
+    async findAllByApplication(appId: string): Promise<Contact[]> {
+        const links = await this.prisma.applicationContact.findMany({
+            where: { app_id: appId },
+            include: { contact: true },
         });
+        return links.map((link) => link.contact);
     }
 
-    async create(data: Omit<Contact, "id" | "createdAt" | "updatedAt">): Promise<Contact> {
+    async create(data: Omit<Contact, "contact_id">): Promise<Contact> {
         return this.prisma.contact.create({ data });
     }
 
-    async update(id: string, data: Partial<Omit<Contact, "id" | "userId" | "createdAt" | "updatedAt">>): Promise<Contact> {
-        return this.prisma.contact.update({ where: { id }, data });
+    async update(contactId: string, data: Partial<Omit<Contact, "contact_id" | "user_id">>): Promise<Contact> {
+        return this.prisma.contact.update({ where: { contact_id: contactId }, data });
     }
 
-    async delete(id: string): Promise<void> {
-        await this.prisma.contact.delete({ where: { id } });
+    async delete(contactId: string): Promise<void> {
+        await this.prisma.contact.delete({ where: { contact_id: contactId } });
     }
 
-    async linkToJob(jobId: string, contactId: string): Promise<void> {
-        await this.prisma.job.update({
-            where: { id: jobId },
-            data: { contacts: { connect: { id: contactId } } },
+    async linkToApplication(appId: string, contactId: string): Promise<void> {
+        await this.prisma.applicationContact.create({
+            data: { app_id: appId, contact_id: contactId },
         });
     }
 
-    async unlinkFromJob(jobId: string, contactId: string): Promise<void> {
-        await this.prisma.job.update({
-            where: { id: jobId },
-            data: { contacts: { disconnect: { id: contactId } } },
+    async unlinkFromApplication(appId: string, contactId: string): Promise<void> {
+        await this.prisma.applicationContact.delete({
+            where: { app_id_contact_id: { app_id: appId, contact_id: contactId } },
         });
     }
 }
-

@@ -8,7 +8,7 @@ export class UserService {
         return this.userStore.findById(id);
     }
 
-    async updateProfile(id: string, updates: Partial<Pick<User, "displayName" | "email">>): Promise<User> {
+    async updateProfile(id: string, updates: Partial<Pick<User, "email">>): Promise<User> {
         const user = await this.userStore.findById(id);
         if (!user) {
             throw new Error(`User with id ${id} not found`);

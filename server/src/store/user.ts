@@ -1,29 +1,25 @@
 import type { PrismaClient, User } from "@prisma/client";
 
-/**
- * Class used to store and retrieve users from the database.
- */
 export class UserStore {
     constructor(private readonly prisma: PrismaClient) { }
 
-    async findById(id: string): Promise<User | null> {
-        return this.prisma.user.findUnique({ where: { id } });
+    async findById(userId: string): Promise<User | null> {
+        return this.prisma.user.findUnique({ where: { user_id: userId } });
     }
 
     async findByEmail(email: string): Promise<User | null> {
         return this.prisma.user.findUnique({ where: { email } });
     }
 
-    async create(data: Omit<User, "id" | "createdAt" | "updatedAt">): Promise<User> {
+    async create(data: Omit<User, "user_id" | "created_at">): Promise<User> {
         return this.prisma.user.create({ data });
     }
 
-    async update(id: string, data: Partial<Pick<User, "email" | "displayName" | "passwordHash">>): Promise<User> {
-        return this.prisma.user.update({ where: { id }, data });
+    async update(userId: string, data: Partial<Pick<User, "email">>): Promise<User> {
+        return this.prisma.user.update({ where: { user_id: userId }, data });
     }
 
-    async delete(id: string): Promise<void> {
-        await this.prisma.user.delete({ where: { id } });
+    async delete(userId: string): Promise<void> {
+        await this.prisma.user.delete({ where: { user_id: userId } });
     }
 }
-
