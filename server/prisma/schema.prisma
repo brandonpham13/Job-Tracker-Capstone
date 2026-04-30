@@ -1,96 +1,98 @@
+/**
+ * Prisma Schema for Job Tracker Application
+ * 
+ * This schema defines the data models for the Job Tracker application, which helps users
+ * organize and track job/internship applications, skills, and professional contacts.
+ * 
+ * Key Models:
+ * - User: Stores user account information and serves as the root entity for data isolation
+ * - Application: Represents a job/internship application with status tracking
+ * - Skill: Global list of professional skills that can be associated with applications
+ * - ApplicationSkill: Join table linking applications to required/used skills
+ * - Contact: Stores professional networking contacts with interaction history
+ * - ApplicationContact: Join table linking contacts to specific applications
+ * 
+ * All data is scoped to individual users to ensure privacy and data isolation.
+ * Cascade deletes are enabled to maintain referential integrity when parent records are deleted.
+ * 
+ * Documentation: https://pris.ly/d/prisma-schema
+ */
+
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    id           String    @id @default(uuid())
-    email        String    @unique
-    passwordHash String    @map("password_hash")
-    displayName  String    @map("display_name")
-    createdAt    DateTime  @default(now()) @map("created_at")
-    updatedAt    DateTime  @updatedAt @map("updated_at")
-
-    jobs     Job[]
-    skills   Skill[]
-    contacts Contact[]
-
-    @@map("users")
+  user_id      String   @id @default(uuid())
+  email        String   @unique
+  created_at   DateTime @default(now())
+  
+  applications Application[]
+  contacts     Contact[]
 }
 
-model Job {
-    id          String    @id @default(uuid())
-    userId      String    @map("user_id")
-    company     String
-    title       String
-    type        JobType
-    status      JobStatus
-    location    String?
-    url         String?
-    description String?
-    notes       String?
-    appliedAt   DateTime? @map("applied_at")
-    createdAt   DateTime  @default(now()) @map("created_at")
-    updatedAt   DateTime  @updatedAt @map("updated_at")
+model Application {
+  app_id                  String   @id @default(uuid())
+  user_id                 String
+  company_name            String
+  role                    String
+  status                  String
+  application_date        DateTime?
+  job_description_text    String?
+  created_at              DateTime @default(now())
 
-    user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    skills   Skill[]   @relation("JobSkills")
-    contacts Contact[] @relation("JobContacts")
-
-    @@index([userId])
-    @@map("jobs")
+  user                    User                @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  skills                  ApplicationSkill[]
+  contacts                ApplicationContact[]
+  
+  @@index([user_id])
 }
 
 model Skill {
-    id           String   @id @default(uuid())
-    userId       String   @map("user_id")
-    name         String
-    comfortLevel Int      @map("comfort_level")
-    createdAt    DateTime @default(now()) @map("created_at")
-    updatedAt    DateTime @updatedAt @map("updated_at")
+  skill_id     String   @id @default(uuid())
+  skill_name   String   @unique
+  category     String?
 
-    user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-    jobs Job[] @relation("JobSkills")
+  applications ApplicationSkill[]
+}
 
-    @@index([userId])
-    @@map("skills")
+model ApplicationSkill {
+  app_id   String
+  skill_id String
+
+  application Application @relation(fields: [app_id], references: [app_id], onDelete: Cascade)
+  skill       Skill       @relation(fields: [skill_id], references: [skill_id], onDelete: Cascade)
+
+  @@id([app_id, skill_id])
+  @@index([skill_id])
 }
 
 model Contact {
-    id        String   @id @default(uuid())
-    userId    String   @map("user_id")
-    name      String
-    email     String?
-    phone     String?
-    company   String?
-    role      String?
-    notes     String?
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @updatedAt @map("updated_at")
+  contact_id        String   @id @default(uuid())
+  user_id           String
+  name              String
+  linkedin_url      String?
+  last_contact_date DateTime?
+  notes             String?
 
-    user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-    jobs Job[] @relation("JobContacts")
-
-    @@index([userId])
-    @@map("contacts")
+  user             User                 @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  applications     ApplicationContact[]
+  
+  @@index([user_id])
 }
 
-enum JobStatus {
-    saved
-    applied
-    interviewing
-    offer
-    rejected
-    accepted
-    withdrawn
-}
+model ApplicationContact {
+  app_id     String
+  contact_id String
 
-enum JobType {
-    full_time
-    part_time
-    internship
-    contract
+  application Application @relation(fields: [app_id], references: [app_id], onDelete: Cascade)
+  contact     Contact     @relation(fields: [contact_id], references: [contact_id], onDelete: Cascade)
+
+  @@id([app_id, contact_id])
+  @@index([contact_id])
 }
