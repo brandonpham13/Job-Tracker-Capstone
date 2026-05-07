@@ -18,6 +18,7 @@
         <ul>
           <li><a href="applications.html">My Applications</a></li>
           <li><a href="contacts.html">Contacts</a></li>
+          <li><a href="skills.html">Skills</a></li>
           <li><a href="trends.html">Trends</a></li>
           <li><a href="index.html">Logout</a></li>
         </ul>
@@ -32,30 +33,27 @@
       </p>
       <form class="add-application-form">
         <div class="add-application-form-row">
-          <label for="title">Position Name</label>
-          <input id="title" required type="text" placeholder="Position Name" />
-        </div>
-        <div class="add-application-form-row">
-          <label for="type">Position Type</label>
+          <label for="role">Position Name</label>
           <input
-            required
-            id="type"
+            id="role"
+            name="role"
             required
             type="text"
-            placeholder="Position Type"
+            placeholder="Position Name"
           />
         </div>
         <div class="add-application-form-row">
-          <label for="organization">Organization</label>
+          <label for="company_name">Organization</label>
           <input
-            id="organization"
+            id="company_name"
+            name="company_name"
             type="text"
             placeholder="Company or Organization"
           />
         </div>
         <div class="add-application-form-row">
           <label for="status">Status</label>
-          <select class="application-status" required>
+          <select class="application-status" name="status" required>
             <option value="">Select a status</option>
             <option value="saved">Saved</option>
             <option value="applied">Applied</option>
@@ -67,42 +65,54 @@
           </select>
         </div>
         <div class="add-application-form-row">
-          <label for="location">Location</label>
-          <input id="location" type="text" placeholder="Location" />
-        </div>
-        <div class="add-application-form-row">
-          <label for="url">URL/Website</label>
-          <input id="url" type="url" placeholder="Website" />
-        </div>
-        <div class="add-application-form-row">
-          <label for="description">Description</label>
-          <input id="description" type="text" placeholder="Brief Description" />
-        </div>
-        <div class="add-application-form-row">
-          <label for="appliedAt">Date Applied</label>
-          <input id="appliedAt" type="datetime" placeholder="Date Applied" />
-        </div>
-        <div class="add-application-form-row">
-          <label for="notes">Notes</label>
-          <textarea
-            id="notes"
-            name="notes"
-            rows="5"
-            placeholder="Notes"
-          ></textarea>
+          <label for="application_date">Date Application is Due</label>
+          <input
+            id="application_date"
+            name="application_date"
+            type="datetime-local"
+            placeholder="Date"
+          />
         </div>
         <p>Required Skills</p>
         <div class="add-application-form-row">
           <label for="skill-1">Skill 1</label>
-          <input id="skill-1" type="text" placeholder="skill" />
+          <input id="skill-1" name="skill-1" type="text" placeholder="skill" />
         </div>
         <div class="add-application-form-row">
           <label for="skill-2">Skill 2</label>
-          <input id="skill-2" type="text" placeholder="skill" />
+          <input id="skill-2" name="skill-2" type="text" placeholder="skill" />
         </div>
         <div class="add-application-form-row">
           <label for="skill-3">Skill 3</label>
-          <input id="skill-3" type="text" placeholder="skill" />
+          <input id="skill-3" name="skill-3" type="text" placeholder="skill" />
+        </div>
+        <p>Useful Contacts</p>
+        <div class="add-application-form-row">
+          <label for="contact-1">Contact 1</label>
+          <input
+            id="contact-1"
+            name="contact-1"
+            type="text"
+            placeholder="contact name"
+          />
+        </div>
+        <div class="add-application-form-row">
+          <label for="contact-2">Contact 2</label>
+          <input
+            id="contact-2"
+            name="contact-2"
+            type="text"
+            placeholder="contact name"
+          />
+        </div>
+        <div class="add-application-form-row">
+          <label for="contact-3">Contact 3</label>
+          <input
+            id="contact-3"
+            name="contact-3"
+            type="text"
+            placeholder="contact name"
+          />
         </div>
         <button type="submit" class="submit-application">Submit</button>
       </form>

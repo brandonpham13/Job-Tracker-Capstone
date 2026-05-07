@@ -61,9 +61,12 @@ p {
 .registration,
 .my-applications,
 .my-contacts,
+.my-skills,
 .add-application,
+.add-skill,
 .add-contact,
 .edit-application,
+.edit-skill,
 .edit-contact,
 .summary-data {
   display: flex;
@@ -142,6 +145,7 @@ button {
 }
 
 .new-application-btn,
+.new-skill-btn,
 .new-contact-btn,
 .registration-btn,
 .cancel-btn {
@@ -219,7 +223,9 @@ form {
 }
 
 .add-application-form,
+.add-skill-form,
 .edit-application-form,
+.edit-skill-form,
 .edit-contact-form,
 .add-contact-form {
   display: flex;
@@ -235,7 +241,9 @@ form {
 
 .registration-form-row,
 .add-application-form-row,
+.add-skill-form-row,
 .edit-application-form-row,
+.edit-skill-form-row,
 .add-contact-form-row,
 .edit-contact-form-row,
 .filter-sort-modal-row {
@@ -308,6 +316,8 @@ td a {
 
 .add-application button,
 .edit-application button,
+.add-skill button,
+.edit-skill button,
 .add-contact button,
 .edit-contact button {
   width: 25%;
@@ -317,6 +327,7 @@ td a {
 }
 
 .add-application button,
+.add-skill button,
 .add-contact button {
   width: 35%;
 }
@@ -398,6 +409,7 @@ select {
 .app-intro,
 .registration-description,
 .edit-application p,
+.edit-skill p,
 .edit-contact p {
   font-size: 24px;
   font-weight: 150;
