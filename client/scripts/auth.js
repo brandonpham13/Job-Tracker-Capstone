@@ -10,25 +10,65 @@
 (function () {
   let clerkInstance = null;
   let readyResolve;
+  let readyReject;
 
-  const readyPromise = new Promise((resolve) => {
+  const readyPromise = new Promise((resolve, reject) => {
     readyResolve = resolve;
+    readyReject = reject;
   });
 
+  function loadScript(src, attrs) {
+    return new Promise(function (resolve, reject) {
+      var script = document.createElement("script");
+      script.src = src;
+      script.crossOrigin = "anonymous";
+      if (attrs) {
+        Object.keys(attrs).forEach(function (key) {
+          script.setAttribute(key, attrs[key]);
+        });
+      }
+      script.onload = resolve;
+      script.onerror = function () {
+        reject(new Error("Failed to load script: " + src));
+      };
+      document.head.appendChild(script);
+    });
+  }
+
   async function init() {
-    const res = await fetch("/api/auth/config");
-    const { publishableKey } = await res.json();
+    try {
+      const res = await fetch("/api/auth/config");
+      const { publishableKey } = await res.json();
 
-    if (!publishableKey) {
-      console.error("Missing CLERK_PUBLISHABLE_KEY – check your server .env");
-      return;
+      if (!publishableKey) {
+        throw new Error(
+          "Missing CLERK_PUBLISHABLE_KEY – check your server .env"
+        );
+      }
+
+      const clerkDomain = atob(publishableKey.split("_")[2]).slice(0, -1);
+
+      await loadScript(
+        "https://" + clerkDomain + "/npm/@clerk/ui@1/dist/ui.browser.js"
+      );
+      await loadScript(
+        "https://" + clerkDomain + "/npm/@clerk/clerk-js@6/dist/clerk.browser.js",
+        { "data-clerk-publishable-key": publishableKey }
+      );
+
+      clerkInstance = window.Clerk;
+      if (!clerkInstance) {
+        throw new Error("Clerk JS failed to load from CDN");
+      }
+
+      await clerkInstance.load({
+        ui: { ClerkUI: window.__internal_ClerkUICtor },
+      });
+      readyResolve(clerkInstance);
+    } catch (err) {
+      console.error("Auth init failed:", err);
+      readyReject(err);
     }
-
-    const Clerk = window.Clerk;
-    clerkInstance = new Clerk(publishableKey);
-    await clerkInstance.load();
-
-    readyResolve(clerkInstance);
   }
 
   async function getToken() {
@@ -40,24 +80,20 @@
   async function signOut() {
     const clerk = await readyPromise;
     await clerk.signOut();
-    window.location.href = "/pages/index.html";
+    window.location.href = "/index.html";
   }
 
-  /**
-   * Call on protected pages. Redirects to the landing page
-   * if the user is not signed in once Clerk finishes loading.
-   */
   async function protect() {
-    const clerk = await readyPromise;
-    if (!clerk.user) {
-      window.location.href = "/pages/index.html";
+    try {
+      const clerk = await readyPromise;
+      if (!clerk.user) {
+        window.location.href = "/index.html";
+      }
+    } catch {
+      window.location.href = "/index.html";
     }
   }
 
-  /**
-   * Wrapper around fetch that automatically attaches the Clerk
-   * session token as a Bearer header.
-   */
   async function apiFetch(url, options = {}) {
     const token = await getToken();
     const headers = { ...options.headers, Authorization: `Bearer ${token}` };

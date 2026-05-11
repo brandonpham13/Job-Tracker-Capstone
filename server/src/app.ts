@@ -19,9 +19,8 @@ app.use(clerkMiddleware());
 const clientPath = path.join(process.cwd(), "../client");
 app.use(express.static(clientPath));
 
-// Serve index.html for root and other SPA routes
 app.get("/", (_req: Request, res: Response) => {
-  res.sendFile(path.join(clientPath, "pages", "index.html"));
+  res.sendFile(path.join(clientPath, "index.html"));
 });
 
 app.get("/health", (_req: Request, res: Response) => {

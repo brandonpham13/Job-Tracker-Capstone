@@ -22,42 +22,48 @@
     </style>
   </head>
   <body>
-    <main class="login">
-      <img
-        src="../images/resumes.png"
-        alt="stack of resumes"
-        class="login-banner"
-      />
+    <nav class="nav">
+      <div class="nav-left">
+        <img
+          src="../images/clipboard.png"
+          alt="clipboard with resumes and applications"
+          class="clipboard-image"
+        />
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li><a href="applications.html">My Applications</a></li>
+          <li><a href="contacts.html">Contacts</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="trends.html">Trends</a></li>
+          <li><a href="#" id="logout-btn">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main class="my-applications">
       <h1>Job Tracker App</h1>
       <p class="app-intro">
         A place to log your job and internship applications. You can track the
         applications status, skill requirements, and contact data, along with
         summary for skill requirements.
       </p>
-      <div id="sign-in-container">
-        <p class="landing-loading">Loading...</p>
+      <div class="button-row" style="justify-content: center; gap: 20px">
+        <a href="applications.html" class="new-application-btn primary-btn"
+          >My Applications</a
+        >
+        <a href="contacts.html" class="new-contact-btn primary-btn"
+          >My Contacts</a
+        >
       </div>
     </main>
 
-    <script
-      data-clerk-publishable-key=""
-      src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
-    ></script>
     <script src="../scripts/auth.js"></script>
     <script>
-      (async function () {
-        await Auth.init();
-        const clerk = await Auth.ready;
-
-        if (clerk.user) {
-          window.location.href = "/pages/applications.html";
-          return;
-        }
-
-        const container = document.getElementById("sign-in-container");
-        container.innerHTML = "";
-        clerk.mountSignIn(container);
-      })();
+      Auth.init().then(() => Auth.protect());
+      document.getElementById("logout-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        Auth.signOut();
+      });
     </script>
   </body>
 </html>
