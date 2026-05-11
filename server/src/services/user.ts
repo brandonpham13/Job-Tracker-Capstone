@@ -1,18 +1,23 @@
-import { User } from "../models/User.js";
-import { UserStore } from "../store/user.js";
+import type { User } from "@prisma/client";
+import type { UserStore } from "../store/user.js";
 
 export class UserService {
-  constructor(private readonly userStore: UserStore) {}
+    constructor(private readonly userStore: UserStore) { }
 
-  async getById(_id: string): Promise<User | null> {
-    throw new Error("TODO");
-  }
+    async getById(id: string): Promise<User | null> {
+        return this.userStore.findById(id);
+    }
 
-  async updateProfile(_id: string, _updates: Partial<Pick<User, "displayName" | "email">>): Promise<User> {
-    throw new Error("TODO");
-  }
+    async updateProfile(id: string, updates: Partial<Pick<User, "email">>): Promise<User> {
+        const user = await this.userStore.findById(id);
+        if (!user) {
+            throw new Error(`User with id ${id} not found`);
+        }
 
-  async delete(_id: string): Promise<void> {
-    throw new Error("TODO");
-  }
+        return this.userStore.update(id, updates);
+    }
+
+    async delete(id: string): Promise<void> {
+        return this.userStore.delete(id);
+    }
 }

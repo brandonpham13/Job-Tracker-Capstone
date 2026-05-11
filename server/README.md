@@ -6,6 +6,7 @@ Express + TypeScript API for the Job Application Tracker.
 
 ```bash
 npm install
+npx prisma generate
 ```
 
 ## Scripts
