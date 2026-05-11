@@ -11,11 +11,10 @@ export class JobRouter {
   }
 
   private setupRoutes() {
-    // GET /api/jobs?userId=...
+    // GET /api/jobs
     this.router.get("/", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
-        const jobs = await this.jobService.list(userId);
+        const jobs = await this.jobService.list(req.userId!);
         res.json(jobs);
       } catch (error) {
         res.status(500).json({ error: "Failed to fetch jobs" });
@@ -25,9 +24,8 @@ export class JobRouter {
     // GET /api/jobs/:id
     this.router.get("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
         const id = getString(req.params.id);
-        const job = await this.jobService.getById(userId, id);
+        const job = await this.jobService.getById(req.userId!, id);
         res.json(job);
       } catch (error) {
         res.status(500).json({ error: "Failed to fetch job" });
@@ -37,8 +35,7 @@ export class JobRouter {
     // POST /api/jobs
     this.router.post("/", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.body.userId);
-        const job = await this.jobService.create(userId, req.body);
+        const job = await this.jobService.create(req.userId!, req.body);
         res.status(201).json(job);
       } catch (error) {
         res.status(500).json({ error: "Failed to create job" });
@@ -48,9 +45,8 @@ export class JobRouter {
     // PUT /api/jobs/:id
     this.router.put("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.body.userId);
         const id = getString(req.params.id);
-        const updated = await this.jobService.update(userId, id, req.body);
+        const updated = await this.jobService.update(req.userId!, id, req.body);
         res.json(updated);
       } catch (error) {
         res.status(500).json({ error: "Failed to update job" });
@@ -60,9 +56,8 @@ export class JobRouter {
     // DELETE /api/jobs/:id
     this.router.delete("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
         const id = getString(req.params.id);
-        await this.jobService.delete(userId, id);
+        await this.jobService.delete(req.userId!, id);
         res.json({ message: "Job deleted" });
       } catch (error) {
         res.status(500).json({ error: "Failed to delete job" });

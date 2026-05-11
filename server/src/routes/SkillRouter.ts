@@ -11,11 +11,10 @@ export class SkillRouter {
   }
 
   private setupRoutes() {
-    // GET /api/skills?userId=...
-    this.router.get("/", async (req: Request, res: Response) => {
+    // GET /api/skills
+    this.router.get("/", async (_req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
-        const skills = await this.skillService.list(userId);
+        const skills = await this.skillService.list();
         res.json(skills);
       } catch (error) {
         res.status(500).json({ error: "Failed to fetch skills" });
@@ -25,9 +24,8 @@ export class SkillRouter {
     // GET /api/skills/:id
     this.router.get("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
         const id = getString(req.params.id);
-        const skill = await this.skillService.getById(userId, id);
+        const skill = await this.skillService.getById(id);
         res.json(skill);
       } catch (error) {
         res.status(500).json({ error: "Failed to fetch skill" });
@@ -37,8 +35,7 @@ export class SkillRouter {
     // POST /api/skills
     this.router.post("/", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.body.userId);
-        const skill = await this.skillService.create(userId, req.body);
+        const skill = await this.skillService.create(req.body);
         res.status(201).json(skill);
       } catch (error) {
         res.status(500).json({ error: "Failed to create skill" });
@@ -48,9 +45,8 @@ export class SkillRouter {
     // PUT /api/skills/:id
     this.router.put("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.body.userId);
         const id = getString(req.params.id);
-        const updated = await this.skillService.update(userId, id, req.body);
+        const updated = await this.skillService.update(id, req.body);
         res.json(updated);
       } catch (error) {
         res.status(500).json({ error: "Failed to update skill" });
@@ -60,35 +56,32 @@ export class SkillRouter {
     // DELETE /api/skills/:id
     this.router.delete("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
         const id = getString(req.params.id);
-        await this.skillService.delete(userId, id);
+        await this.skillService.delete(id);
         res.json({ message: "Skill deleted" });
       } catch (error) {
         res.status(500).json({ error: "Failed to delete skill" });
       }
     });
 
-    // POST /api/skills/:skillId/jobs/:jobId (attach skill to job)
+    // POST /api/skills/:skillId/jobs/:jobId
     this.router.post("/:skillId/jobs/:jobId", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.body.userId);
         const jobId = getString(req.params.jobId);
         const skillId = getString(req.params.skillId);
-        await this.skillService.attachToJob(userId, jobId, skillId);
+        await this.skillService.attachToApplication(req.userId!, jobId, skillId);
         res.json({ message: "Skill attached to job" });
       } catch (error) {
         res.status(500).json({ error: "Failed to attach skill to job" });
       }
     });
 
-    // DELETE /api/skills/:skillId/jobs/:jobId (detach skill from job)
+    // DELETE /api/skills/:skillId/jobs/:jobId
     this.router.delete("/:skillId/jobs/:jobId", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
         const jobId = getString(req.params.jobId);
         const skillId = getString(req.params.skillId);
-        await this.skillService.detachFromJob(userId, jobId, skillId);
+        await this.skillService.detachFromApplication(req.userId!, jobId, skillId);
         res.json({ message: "Skill detached from job" });
       } catch (error) {
         res.status(500).json({ error: "Failed to detach skill from job" });
