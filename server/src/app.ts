@@ -28,7 +28,11 @@ app.get("/health", (_req: Request, res: Response) => {
     res.json({ status: "ok" });
 });
 
-// All /api routes require authentication
+app.get("/api/auth/config", (_req: Request, res: Response) => {
+    res.json({ publishableKey: process.env.CLERK_PUBLISHABLE_KEY });
+});
+
+// All /api routes below require authentication
 const auth = requireAuth(container.userService);
 
 const userRouter = new UserRouter(container.userService);
