@@ -35,12 +35,21 @@ model User {
   contacts     Contact[]
 }
 
+enum ApplicationStatus {
+  APPLIED
+  INTERVIEWING
+  OFFER
+  REJECTED
+  ACCEPTED
+  WITHDRAWN
+}
+
 model Application {
-  app_id                  String   @id @default(uuid())
+  app_id                  String               @id @default(uuid())
   user_id                 String
   company_name            String
   role                    String
-  status                  String
+  status                  ApplicationStatus    @default(APPLIED)
   application_date        DateTime?
   job_description_text    String?
   created_at              DateTime @default(now())
