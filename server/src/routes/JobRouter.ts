@@ -11,14 +11,29 @@ export class JobRouter {
   }
 
   private setupRoutes() {
-    // GET /api/jobs?userId=...
+    // GET /api/jobs?userId=...&status=...&search=...&sortBy=...&sortOrder=...
     this.router.get("/", async (req: Request, res: Response) => {
       try {
         const userId = getString(req.query.userId);
-        const jobs = await this.jobService.list(userId);
+        const status = req.query.status ? String(req.query.status) : undefined;
+        const searchTerm = req.query.search ? String(req.query.search) : undefined;
+        const sortBy = req.query.sortBy ? String(req.query.sortBy) as "date" | "company" : undefined;
+        const sortOrder = req.query.sortOrder ? String(req.query.sortOrder) as "asc" | "desc" : undefined;
+
+        if (!userId) {
+          return res.status(400).json({ error: "User ID is required" });
+        }
+
+        const jobs = await this.jobService.list(userId, {
+          status,
+          searchTerm,
+          sortBy,
+          sortOrder,
+        });
         res.json(jobs);
       } catch (error) {
-        res.status(500).json({ error: "Failed to fetch jobs" });
+        const message = error instanceof Error ? error.message : "Failed to fetch jobs";
+        res.status(500).json({ error: message });
       }
     });
 
@@ -27,10 +42,19 @@ export class JobRouter {
       try {
         const userId = getString(req.query.userId);
         const id = getString(req.params.id);
+
+        if (!userId) {
+          return res.status(400).json({ error: "User ID is required" });
+        }
+
         const job = await this.jobService.getById(userId, id);
+        if (!job) {
+          return res.status(404).json({ error: "Job not found" });
+        }
         res.json(job);
       } catch (error) {
-        res.status(500).json({ error: "Failed to fetch job" });
+        const message = error instanceof Error ? error.message : "Failed to fetch job";
+        res.status(500).json({ error: message });
       }
     });
 
@@ -38,10 +62,16 @@ export class JobRouter {
     this.router.post("/", async (req: Request, res: Response) => {
       try {
         const userId = getString(req.body.userId);
+
+        if (!userId) {
+          return res.status(400).json({ error: "User ID is required" });
+        }
+
         const job = await this.jobService.create(userId, req.body);
         res.status(201).json(job);
       } catch (error) {
-        res.status(500).json({ error: "Failed to create job" });
+        const message = error instanceof Error ? error.message : "Failed to create job";
+        res.status(400).json({ error: message });
       }
     });
 
@@ -50,10 +80,17 @@ export class JobRouter {
       try {
         const userId = getString(req.body.userId);
         const id = getString(req.params.id);
+
+        if (!userId) {
+          return res.status(400).json({ error: "User ID is required" });
+        }
+
         const updated = await this.jobService.update(userId, id, req.body);
         res.json(updated);
       } catch (error) {
-        res.status(500).json({ error: "Failed to update job" });
+        const message = error instanceof Error ? error.message : "Failed to update job";
+        const statusCode = message.includes("Unauthorized") ? 403 : 500;
+        res.status(statusCode).json({ error: message });
       }
     });
 
@@ -62,10 +99,17 @@ export class JobRouter {
       try {
         const userId = getString(req.query.userId);
         const id = getString(req.params.id);
+
+        if (!userId) {
+          return res.status(400).json({ error: "User ID is required" });
+        }
+
         await this.jobService.delete(userId, id);
         res.json({ message: "Job deleted" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to delete job" });
+        const message = error instanceof Error ? error.message : "Failed to delete job";
+        const statusCode = message.includes("Unauthorized") ? 403 : 500;
+        res.status(statusCode).json({ error: message });
       }
     });
   }

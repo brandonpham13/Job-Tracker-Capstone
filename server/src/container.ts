@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import { UserStore } from "./store/user.js";
 import { JobStore } from "./store/job.js";
 import { SkillStore } from "./store/skill.js";
@@ -9,6 +10,7 @@ import { SkillService } from "./services/skill.js";
 import { ContactService } from "./services/contact.js";
 
 export class Container {
+  readonly prisma: PrismaClient;
   readonly userStore: UserStore;
   readonly jobStore: JobStore;
   readonly skillStore: SkillStore;
@@ -20,8 +22,10 @@ export class Container {
   readonly contactService: ContactService;
 
   constructor() {
+    this.prisma = new PrismaClient();
+    
     this.userStore = new UserStore();
-    this.jobStore = new JobStore();
+    this.jobStore = new JobStore(this.prisma);
     this.skillStore = new SkillStore();
     this.contactStore = new ContactStore();
 
