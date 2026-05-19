@@ -1,0 +1,106 @@
+/**
+ * Prisma Schema for Job Tracker Application
+ * 
+ * This schema defines the data models for the Job Tracker application, which helps users
+ * organize and track job/internship applications, skills, and professional contacts.
+ * 
+ * Key Models:
+ * - User: Stores user account information and serves as the root entity for data isolation
+ * - Application: Represents a job/internship application with status tracking
+ * - Skill: Global list of professional skills that can be associated with applications
+ * - ApplicationSkill: Join table linking applications to required/used skills
+ * - Contact: Stores professional networking contacts with interaction history
+ * - ApplicationContact: Join table linking contacts to specific applications
+ * 
+ * All data is scoped to individual users to ensure privacy and data isolation.
+ * Cascade deletes are enabled to maintain referential integrity when parent records are deleted.
+ * 
+ * Documentation: https://pris.ly/d/prisma-schema
+ */
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  user_id      String   @id @default(uuid())
+  email        String   @unique
+  created_at   DateTime @default(now())
+  
+  applications Application[]
+  contacts     Contact[]
+}
+
+enum ApplicationStatus {
+  APPLIED
+  INTERVIEWING
+  OFFER
+  REJECTED
+  ACCEPTED
+  WITHDRAWN
+}
+
+model Application {
+  app_id                  String               @id @default(uuid())
+  user_id                 String
+  company_name            String
+  role                    String
+  status                  ApplicationStatus    @default(APPLIED)
+  application_date        DateTime?
+  job_description_text    String?
+  created_at              DateTime @default(now())
+
+  user                    User                @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  skills                  ApplicationSkill[]
+  contacts                ApplicationContact[]
+  
+  @@index([user_id])
+}
+
+model Skill {
+  skill_id     String   @id @default(uuid())
+  skill_name   String   @unique
+  category     String?
+
+  applications ApplicationSkill[]
+}
+
+model ApplicationSkill {
+  app_id   String
+  skill_id String
+
+  application Application @relation(fields: [app_id], references: [app_id], onDelete: Cascade)
+  skill       Skill       @relation(fields: [skill_id], references: [skill_id], onDelete: Cascade)
+
+  @@id([app_id, skill_id])
+  @@index([skill_id])
+}
+
+model Contact {
+  contact_id        String   @id @default(uuid())
+  user_id           String
+  name              String
+  linkedin_url      String?
+  last_contact_date DateTime?
+  notes             String?
+
+  user             User                 @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  applications     ApplicationContact[]
+  
+  @@index([user_id])
+}
+
+model ApplicationContact {
+  app_id     String
+  contact_id String
+
+  application Application @relation(fields: [app_id], references: [app_id], onDelete: Cascade)
+  contact     Contact     @relation(fields: [contact_id], references: [contact_id], onDelete: Cascade)
+
+  @@id([app_id, contact_id])
+  @@index([contact_id])
+}
