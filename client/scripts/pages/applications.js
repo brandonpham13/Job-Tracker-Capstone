@@ -1,8 +1,4 @@
-import {
-  ApplicationsAPI,
-  ApplicationsAPI,
-  getCurrentUserId,
-} from "../api/fetch_api.js";
+import { ApplicationsAPI, getCurrentUserId } from "../api/fetch_api.js";
 
 export function initApplicationsPage() {
   const tableBody = document.querySelector("#applications-table");
@@ -27,7 +23,7 @@ export function initApplicationsPage() {
       .map(
         (app) => `
     <tr>
-      <td><button class="delete-btn"><i class="fa-solid fa-trash"></i></button></td>
+      <td><button class="delete-btn" data-id="${app.id}"><i class="fa-solid fa-trash"></i></button></td>
       <td>${app.role}</td>
       <td>${app.company_name}</td>
       <td>${app.status}</td>

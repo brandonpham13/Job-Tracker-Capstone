@@ -43,23 +43,15 @@
             <th>Category</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>
-              <button class="delete-btn">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </td>
-            <td>Test</td>
-            <td>Test</td>
-          </tr>
-        </tbody>
+        <tbody id="skills-table"></tbody>
       </table>
       <div class="deleted-overlay hidden">
         <div class="deleted-content">
           <p>Once you delete this skill, you will be unable to re-add it.</p>
           <div>
-            <button class="confirm-delete secondary-btn">Delete</button>
+            <button class="confirm-delete secondary-btn" data-id="${skill.id}">
+              Delete
+            </button>
           </div>
           <div>
             <button class="cancel-delete secondary-btn">Cancel</button>
