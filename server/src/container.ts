@@ -8,6 +8,7 @@ import { UserService } from "./services/user.js";
 import { ApplicationService } from "./services/application.js";
 import { SkillService } from "./services/skill.js";
 import { ContactService } from "./services/contact.js";
+import type { JobService } from "./services/job.js";
 
 export class Container {
     readonly userStore: UserStore;
@@ -17,6 +18,7 @@ export class Container {
 
     readonly userService: UserService;
     readonly applicationService: ApplicationService;
+    readonly jobService: JobService;
     readonly skillService: SkillService;
     readonly contactService: ContactService;
 
@@ -28,6 +30,7 @@ export class Container {
 
         this.userService = new UserService(this.userStore);
         this.applicationService = new ApplicationService(this.applicationStore);
+        this.jobService = this.applicationService;
         this.skillService = new SkillService(this.skillStore, this.applicationStore);
         this.contactService = new ContactService(this.contactStore, this.applicationStore);
     }

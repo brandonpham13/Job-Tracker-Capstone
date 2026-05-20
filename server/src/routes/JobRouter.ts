@@ -11,14 +11,10 @@ export class JobRouter {
     }
 
     private setupRoutes() {
-        // GET /api/applications?userId=...
+        // GET /api/applications
         this.router.get("/", async (req: Request, res: Response) => {
             try {
-                const userId = getString(req.query.userId);
-                if (!userId) {
-                    return res.status(400).json({ error: "User ID is required" });
-                }
-                const applications = await this.applicationService.list(userId);
+                const applications = await this.applicationService.list(req.userId!);
                 res.json(applications);
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Failed to fetch applications";
@@ -29,12 +25,8 @@ export class JobRouter {
         // GET /api/applications/:id
         this.router.get("/:id", async (req: Request, res: Response) => {
             try {
-                const userId = getString(req.query.userId);
                 const id = getString(req.params.id);
-                if (!userId) {
-                    return res.status(400).json({ error: "User ID is required" });
-                }
-                const application = await this.applicationService.getById(userId, id);
+                const application = await this.applicationService.getById(req.userId!, id);
                 if (!application) {
                     return res.status(404).json({ error: "Application not found" });
                 }
@@ -48,12 +40,7 @@ export class JobRouter {
         // POST /api/applications
         this.router.post("/", async (req: Request, res: Response) => {
             try {
-                const userId = getString(req.body.userId);
-                if (!userId) {
-                    return res.status(400).json({ error: "User ID is required" });
-                }
-                const { userId: _, ...data } = req.body;
-                const application = await this.applicationService.create(userId, data);
+                const application = await this.applicationService.create(req.userId!, req.body);
                 res.status(201).json(application);
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Failed to create application";
@@ -64,13 +51,8 @@ export class JobRouter {
         // PUT /api/applications/:id
         this.router.put("/:id", async (req: Request, res: Response) => {
             try {
-                const userId = getString(req.body.userId);
                 const id = getString(req.params.id);
-                if (!userId) {
-                    return res.status(400).json({ error: "User ID is required" });
-                }
-                const { userId: _, ...updates } = req.body;
-                const updated = await this.applicationService.update(userId, id, updates);
+                const updated = await this.applicationService.update(req.userId!, id, req.body);
                 res.json(updated);
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Failed to update application";
@@ -81,12 +63,8 @@ export class JobRouter {
         // DELETE /api/applications/:id
         this.router.delete("/:id", async (req: Request, res: Response) => {
             try {
-                const userId = getString(req.query.userId);
                 const id = getString(req.params.id);
-                if (!userId) {
-                    return res.status(400).json({ error: "User ID is required" });
-                }
-                await this.applicationService.delete(userId, id);
+                await this.applicationService.delete(req.userId!, id);
                 res.json({ message: "Application deleted" });
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Failed to delete application";

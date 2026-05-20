@@ -7,12 +7,24 @@ export class UserStore {
         return this.prisma.user.findUnique({ where: { user_id: userId } });
     }
 
+    async findByClerkId(clerkId: string): Promise<User | null> {
+        return this.prisma.user.findUnique({ where: { clerk_id: clerkId } });
+    }
+
     async findByEmail(email: string): Promise<User | null> {
         return this.prisma.user.findUnique({ where: { email } });
     }
 
     async create(data: Omit<User, "user_id" | "created_at">): Promise<User> {
         return this.prisma.user.create({ data });
+    }
+
+    async upsertByClerkId(clerkId: string, email: string): Promise<User> {
+        return this.prisma.user.upsert({
+            where: { clerk_id: clerkId },
+            update: { email },
+            create: { clerk_id: clerkId, email },
+        });
     }
 
     async update(userId: string, data: Partial<Pick<User, "email">>): Promise<User> {

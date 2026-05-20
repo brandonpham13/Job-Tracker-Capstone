@@ -3,15 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skill Details</title>
+    <title>Job Tracker</title>
     <link rel="stylesheet" href="../styles/style.css" />
+    <style>
+      #sign-in-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+        min-height: 200px;
+      }
+      .landing-loading {
+        font-size: 20px;
+        color: #333;
+        text-align: center;
+        padding: 40px 0;
+      }
+    </style>
   </head>
   <body>
     <nav class="nav">
       <div class="nav-left">
         <img
           src="../images/clipboard.png"
-          alt="clipboad with resumes and applications"
+          alt="clipboard with resumes and applications"
           class="clipboard-image"
         />
       </div>
@@ -25,27 +40,23 @@
         </ul>
       </div>
     </nav>
-    <main class="edit-skill">
-      <h1>Skill Details</h1>
-      <p>View and update details of your skill.</p>
-      <form class="edit-skill-form">
-        <div class="add-skill-form-row">
-          <label for="skill_name">Skill Name</label>
-          <input
-            id="skill_name"
-            name="skill_name"
-            required
-            type="text"
-            placeholder="Skill"
-          />
-        </div>
-        <div class="add-skill-form-row">
-          <label for="category">Skill Category</label>
-          <input id="type" name="category" type="text" placeholder="Category" />
-        </div>
-        <button type="submit" class="secondary-btn">Update</button>
-      </form>
+    <main class="my-applications">
+      <h1>Job Tracker App</h1>
+      <p class="app-intro">
+        A place to log your job and internship applications. You can track the
+        applications status, skill requirements, and contact data, along with
+        summary for skill requirements.
+      </p>
+      <div class="button-row" style="justify-content: center; gap: 20px">
+        <a href="applications.html" class="new-application-btn primary-btn"
+          >My Applications</a
+        >
+        <a href="contacts.html" class="new-contact-btn primary-btn"
+          >My Contacts</a
+        >
+      </div>
     </main>
+
     <script src="../scripts/auth.js"></script>
     <script>
       Auth.init().then(() => Auth.protect());
@@ -54,6 +65,5 @@
         Auth.signOut();
       });
     </script>
-    <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>
