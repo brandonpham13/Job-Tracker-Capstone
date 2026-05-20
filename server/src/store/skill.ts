@@ -1,38 +1,49 @@
-import { Skill } from "../models/Skill.js";
+import type { PrismaClient, Skill } from "@prisma/client";
 
-/**
- * Class used to store and retrieve skills from the database.
- */
 export class SkillStore {
-  async findById(_id: string): Promise<Skill | null> {
-    throw new Error("Not implemented");
-  }
+    constructor(private readonly prisma: PrismaClient) { }
 
-  async findAllByUser(_userId: string): Promise<Skill[]> {
-    throw new Error("Not implemented");
-  }
+    async findById(skillId: string): Promise<Skill | null> {
+        return this.prisma.skill.findUnique({ where: { skill_id: skillId } });
+    }
 
-  async findAllByJob(_jobId: string): Promise<Skill[]> {
-    throw new Error("Not implemented");
-  }
+    async findByName(skillName: string): Promise<Skill | null> {
+        return this.prisma.skill.findUnique({ where: { skill_name: skillName } });
+    }
 
-  async create(_skill: Skill): Promise<Skill> {
-    throw new Error("Not implemented");
-  }
+    async findAll(): Promise<Skill[]> {
+        return this.prisma.skill.findMany();
+    }
 
-  async update(_skill: Skill): Promise<Skill> {
-    throw new Error("Not implemented");
-  }
+    async findAllByApplication(appId: string): Promise<Skill[]> {
+        const links = await this.prisma.applicationSkill.findMany({
+            where: { app_id: appId },
+            include: { skill: true },
+        });
+        return links.map((link) => link.skill);
+    }
 
-  async delete(_id: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async create(data: Omit<Skill, "skill_id">): Promise<Skill> {
+        return this.prisma.skill.create({ data });
+    }
 
-  async linkToJob(_jobId: string, _skillId: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async update(skillId: string, data: Partial<Omit<Skill, "skill_id">>): Promise<Skill> {
+        return this.prisma.skill.update({ where: { skill_id: skillId }, data });
+    }
 
-  async unlinkFromJob(_jobId: string, _skillId: string): Promise<void> {
-    throw new Error("Not implemented");
-  }
+    async delete(skillId: string): Promise<void> {
+        await this.prisma.skill.delete({ where: { skill_id: skillId } });
+    }
+
+    async linkToApplication(appId: string, skillId: string): Promise<void> {
+        await this.prisma.applicationSkill.create({
+            data: { app_id: appId, skill_id: skillId },
+        });
+    }
+
+    async unlinkFromApplication(appId: string, skillId: string): Promise<void> {
+        await this.prisma.applicationSkill.delete({
+            where: { app_id_skill_id: { app_id: appId, skill_id: skillId } },
+        });
+    }
 }

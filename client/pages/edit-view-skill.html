@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skill Details</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-left">
+        <img
+          src="../images/clipboard.png"
+          alt="clipboad with resumes and applications"
+          class="clipboard-image"
+        />
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li><a href="applications.html">My Applications</a></li>
+          <li><a href="contacts.html">Contacts</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="trends.html">Trends</a></li>
+          <li><a href="index.html">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main class="edit-skill">
+      <h1>Skill Details</h1>
+      <p>View and update details of your skill.</p>
+      <form class="edit-skill-form">
+        <div class="add-skill-form-row">
+          <label for="skill_name">Skill Name</label>
+          <input
+            id="skill_name"
+            name="skill_name"
+            required
+            type="text"
+            placeholder="Skill"
+          />
+        </div>
+        <div class="add-skill-form-row">
+          <label for="category">Skill Category</label>
+          <input id="type" name="category" type="text" placeholder="Category" />
+        </div>
+        <button type="submit" class="secondary-btn">Update</button>
+      </form>
+    </main>
+    <script type="module" src="../scripts/index.js"></script>
+  </body>
+</html>

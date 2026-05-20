@@ -18,26 +18,23 @@
       <p class="registration-description">create your account</p>
       <form class="registration-box">
         <div class="registration-form-row">
-          <label for="firstName">First Name</label>
-          <input id="firstName" type="text" name="firstName" required />
+          <label for="displayName">User Name</label>
+          <input id="displayName" type="text" name="displayName" required />
         </div>
         <div class="registration-form-row">
-          <label for="lastName">Last Name</label>
-          <input id="lastName" type="text" name="lastName" required />
-        </div>
-        <div class="registration-form-row">
-          <label for="username">Username</label>
-          <input id="username" type="text" name="username" required />
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" required />
         </div>
         <div class="registration-form-row">
           <label for="password">Password</label>
           <input id="password" type="password" name="password" required />
         </div>
         <div class="registration-buttons">
-          <button type="button">Cancel</button>
-          <button type="submit">Register</button>
+          <a href="index.html" class="cancel-btn primary-btn">Cancel</a>
+          <button type="submit" class="primary-btn">Register</button>
         </div>
       </form>
     </main>
+    <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>

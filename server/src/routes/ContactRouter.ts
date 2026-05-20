@@ -69,29 +69,29 @@ export class ContactRouter {
       }
     });
 
-    // POST /api/contacts/:contactId/jobs/:jobId (attach contact to job)
-    this.router.post("/:contactId/jobs/:jobId", async (req: Request, res: Response) => {
+    // POST /api/contacts/:contactId/applications/:appId (attach contact to application)
+    this.router.post("/:contactId/applications/:appId", async (req: Request, res: Response) => {
       try {
         const userId = getString(req.body.userId);
-        const jobId = getString(req.params.jobId);
+        const appId = getString(req.params.appId);
         const contactId = getString(req.params.contactId);
-        await this.contactService.attachToJob(userId, jobId, contactId);
-        res.json({ message: "Contact attached to job" });
+        await this.contactService.attachToApplication(userId, appId, contactId);
+        res.json({ message: "Contact attached to application" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to attach contact to job" });
+        res.status(500).json({ error: "Failed to attach contact to application" });
       }
     });
 
-    // DELETE /api/contacts/:contactId/jobs/:jobId (detach contact from job)
-    this.router.delete("/:contactId/jobs/:jobId", async (req: Request, res: Response) => {
+    // DELETE /api/contacts/:contactId/applications/:appId (detach contact from application)
+    this.router.delete("/:contactId/applications/:appId", async (req: Request, res: Response) => {
       try {
         const userId = getString(req.query.userId);
-        const jobId = getString(req.params.jobId);
+        const appId = getString(req.params.appId);
         const contactId = getString(req.params.contactId);
-        await this.contactService.detachFromJob(userId, jobId, contactId);
-        res.json({ message: "Contact detached from job" });
+        await this.contactService.detachFromApplication(userId, appId, contactId);
+        res.json({ message: "Contact detached from application" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to detach contact from job" });
+        res.status(500).json({ error: "Failed to detach contact from application" });
       }
     });
   }

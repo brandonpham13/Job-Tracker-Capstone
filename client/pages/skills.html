@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Contacts</title>
+    <title>My Skills</title>
     <link rel="stylesheet" href="../styles/style.css" />
     <link
       rel="stylesheet"
@@ -14,8 +14,8 @@
     <nav class="nav">
       <div class="nav-left">
         <img
-          src="../images/contact_cubes.png"
-          alt="cubes with email and phone symbols"
+          src="../images/clipboard.png"
+          alt="clipboad with resumes and applications"
           class="clipboard-image"
         />
       </div>
@@ -29,31 +29,27 @@
         </ul>
       </div>
     </nav>
-    <main class="my-contacts">
-      <h1>My Contacts</h1>
+    <main class="my-skills">
+      <h1>My Skills</h1>
       <div class="button-row">
-        <button class="filter-contacts primary-btn">Filter Contacts</button>
-        <a href="add-contact.html" class="new-contact-btn primary-btn"
-          >New Contact</a
-        >
+        <button class="filter-sort-btn primary-btn">Filter/Sort</button>
+        <a href="add-skill.html" class="new-skill-btn primary-btn">New Skill</a>
       </div>
       <table>
         <thead>
           <tr>
             <th></th>
-            <th>Contact Name</th>
+            <th>Skill</th>
+            <th>Category</th>
           </tr>
         </thead>
-        <tbody id="contacts-table"></tbody>
+        <tbody id="skills-table"></tbody>
       </table>
       <div class="deleted-overlay hidden">
         <div class="deleted-content">
-          <p>Once you delete this contact, you will be unable to re-add it.</p>
+          <p>Once you delete this skill, you will be unable to re-add it.</p>
           <div>
-            <button
-              class="confirm-delete secondary-btn"
-              data-id="${contact.id}"
-            >
+            <button class="confirm-delete secondary-btn" data-id="${skill.id}">
               Delete
             </button>
           </div>
@@ -65,16 +61,18 @@
 
       <div class="filter-sort-overlay hidden">
         <div class="filter-sort-content">
-          <p>Select the filters you would like to apply.</p>
+          <p>Sorting</p>
           <form>
             <div class="filter-sort-modal-row">
-              <label>Location:</label>
+              <label>Sort by:</label>
               <select>
                 <option value="">Select an option</option>
+                <option value="category">Category</option>
               </select>
             </div>
+            <p>Select the filters you would like to apply.</p>
             <div class="filter-sort-modal-row">
-              <label>Organization:</label>
+              <label>Category:</label>
               <select>
                 <option value="">Select an option</option>
               </select>

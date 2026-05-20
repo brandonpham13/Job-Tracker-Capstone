@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Skill</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-left">
+        <img
+          src="../images/clipboard.png"
+          alt="clipboad with resumes and applications"
+        />
+      </div>
+      <div class="nav-links">
+        <ul>
+          <li><a href="applications.html">My Applications</a></li>
+          <li><a href="contacts.html">Contacts</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="trends.html">Trends</a></li>
+          <li><a href="index.html">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main class="add-skill">
+      <h1>Add a Skill</h1>
+      <p>
+        Fill in the information for the skill you would like to record. The only
+        required field is the skill name. Once you submit the skill it will be
+        added to your library.
+      </p>
+      <form class="add-skill-form">
+        <div class="add-skill-form-row">
+          <label for="skill_name">Skill Name</label>
+          <input
+            id="skill_name"
+            name="skill_name"
+            required
+            type="text"
+            placeholder="skill"
+          />
+        </div>
+        <div class="add-skill-form-row">
+          <label for="category">Category</label>
+          <input
+            id="category"
+            name="category"
+            type="text"
+            placeholder="Category of Skill"
+          />
+        </div>
+        <button type="submit" class="submit-skill">Submit</button>
+      </form>
+      <div class="success-overlay hidden">
+        <div class="success-content">
+          <p>You have successfully added your skill.</p>
+          <div>
+            <img
+              src="../images/checklist.png"
+              alt="hand check off to-do list"
+            />
+          </div>
+          <div>
+            <button class="close-modal secondary-btn">OK</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="../scripts/index.js"></script>
+  </body>
+</html>

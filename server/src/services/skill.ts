@@ -1,34 +1,68 @@
-import { Skill } from "../models/Skill.js";
-import { SkillStore } from "../store/skill.js";
+import type { Skill } from "@prisma/client";
+import type { SkillStore } from "../store/skill.js";
+import type { ApplicationStore } from "../store/application.js";
 
 export class SkillService {
-  constructor(private readonly skillStore: SkillStore) {}
+    constructor(
+        private readonly skillStore: SkillStore,
+        private readonly applicationStore: ApplicationStore,
+    ) { }
 
-  async list(_userId: string): Promise<Skill[]> {
-    throw new Error("TODO");
-  }
+    async list(): Promise<Skill[]> {
+        return this.skillStore.findAll();
+    }
 
-  async getById(_userId: string, _id: string): Promise<Skill | null> {
-    throw new Error("TODO");
-  }
+    async getById(skillId: string): Promise<Skill | null> {
+        return this.skillStore.findById(skillId);
+    }
 
-  async create(_userId: string, _data: Omit<Skill, "id" | "userId" | "createdAt" | "updatedAt">): Promise<Skill> {
-    throw new Error("TODO");
-  }
+    async create(data: Omit<Skill, "skill_id">): Promise<Skill> {
+        return this.skillStore.create(data);
+    }
 
-  async update(_userId: string, _id: string, _updates: Partial<Skill>): Promise<Skill> {
-    throw new Error("TODO");
-  }
+    async update(skillId: string, updates: Partial<Omit<Skill, "skill_id">>): Promise<Skill> {
+        const skill = await this.skillStore.findById(skillId);
+        if (!skill) {
+            throw new Error(`Skill with id ${skillId} not found`);
+        }
 
-  async delete(_userId: string, _id: string): Promise<void> {
-    throw new Error("TODO");
-  }
+        return this.skillStore.update(skillId, updates);
+    }
 
-  async attachToJob(_userId: string, _jobId: string, _skillId: string): Promise<void> {
-    throw new Error("TODO");
-  }
+    async delete(skillId: string): Promise<void> {
+        const skill = await this.skillStore.findById(skillId);
+        if (!skill) {
+            throw new Error(`Skill with id ${skillId} not found`);
+        }
 
-  async detachFromJob(_userId: string, _jobId: string, _skillId: string): Promise<void> {
-    throw new Error("TODO");
-  }
+        return this.skillStore.delete(skillId);
+    }
+
+    async attachToApplication(userId: string, appId: string, skillId: string): Promise<void> {
+        const app = await this.applicationStore.findById(appId);
+        if (!app || app.user_id !== userId) {
+            throw new Error(`Application with id ${appId} not found`);
+        }
+
+        const skill = await this.skillStore.findById(skillId);
+        if (!skill) {
+            throw new Error(`Skill with id ${skillId} not found`);
+        }
+
+        return this.skillStore.linkToApplication(appId, skillId);
+    }
+
+    async detachFromApplication(userId: string, appId: string, skillId: string): Promise<void> {
+        const app = await this.applicationStore.findById(appId);
+        if (!app || app.user_id !== userId) {
+            throw new Error(`Application with id ${appId} not found`);
+        }
+
+        const skill = await this.skillStore.findById(skillId);
+        if (!skill) {
+            throw new Error(`Skill with id ${skillId} not found`);
+        }
+
+        return this.skillStore.unlinkFromApplication(appId, skillId);
+    }
 }

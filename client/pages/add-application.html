@@ -12,15 +12,15 @@
         <img
           src="../images/clipboard.png"
           alt="clipboad with resumes and applications"
-          class="clipboard-image"
         />
       </div>
       <div class="nav-links">
         <ul>
-          <li>My Applications</li>
-          <li>Contacts</li>
-          <li>Trends</li>
-          <li>Logout</li>
+          <li><a href="applications.html">My Applications</a></li>
+          <li><a href="contacts.html">Contacts</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="trends.html">Trends</a></li>
+          <li><a href="index.html">Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -33,41 +33,104 @@
       </p>
       <form class="add-application-form">
         <div class="add-application-form-row">
-          <label for="position-name">Position Name</label>
+          <label for="role">Position Name</label>
           <input
-            id="position-name"
+            id="role"
+            name="role"
             required
             type="text"
             placeholder="Position Name"
           />
         </div>
         <div class="add-application-form-row">
-          <label for="organization">Organization</label>
+          <label for="company_name">Organization</label>
           <input
-            id="organization"
+            id="company_name"
+            name="company_name"
             type="text"
             placeholder="Company or Organization"
           />
         </div>
         <div class="add-application-form-row">
           <label for="status">Status</label>
-          <input id="status" type="text" placeholder="Application Status" />
+          <select class="application-status" name="status" required>
+            <option value="">Select a status</option>
+            <option value="saved">Saved</option>
+            <option value="applied">Applied</option>
+            <option value="interviewing">Interviewing</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+            <option value="accepted">Accepted</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+        </div>
+        <div class="add-application-form-row">
+          <label for="application_date">Date Application is Due</label>
+          <input
+            id="application_date"
+            name="application_date"
+            type="datetime-local"
+            placeholder="Date"
+          />
         </div>
         <p>Required Skills</p>
         <div class="add-application-form-row">
           <label for="skill-1">Skill 1</label>
-          <input id="skill-1" type="text" placeholder="skill" />
+          <input id="skill-1" name="skill-1" type="text" placeholder="skill" />
         </div>
         <div class="add-application-form-row">
           <label for="skill-2">Skill 2</label>
-          <input id="skill-2" type="text" placeholder="skill" />
+          <input id="skill-2" name="skill-2" type="text" placeholder="skill" />
         </div>
         <div class="add-application-form-row">
           <label for="skill-3">Skill 3</label>
-          <input id="skill-3" type="text" placeholder="skill" />
+          <input id="skill-3" name="skill-3" type="text" placeholder="skill" />
         </div>
-        <button type="submit">Submit Application</button>
+        <p>Useful Contacts</p>
+        <div class="add-application-form-row">
+          <label for="contact-1">Contact 1</label>
+          <input
+            id="contact-1"
+            name="contact-1"
+            type="text"
+            placeholder="contact name"
+          />
+        </div>
+        <div class="add-application-form-row">
+          <label for="contact-2">Contact 2</label>
+          <input
+            id="contact-2"
+            name="contact-2"
+            type="text"
+            placeholder="contact name"
+          />
+        </div>
+        <div class="add-application-form-row">
+          <label for="contact-3">Contact 3</label>
+          <input
+            id="contact-3"
+            name="contact-3"
+            type="text"
+            placeholder="contact name"
+          />
+        </div>
+        <button type="submit" class="submit-application">Submit</button>
       </form>
+      <div class="success-overlay hidden">
+        <div class="success-content">
+          <p>You have successfully added your application.</p>
+          <div>
+            <img
+              src="../images/checklist.png"
+              alt="hand check off to-do list"
+            />
+          </div>
+          <div>
+            <button class="close-modal secondary-btn">OK</button>
+          </div>
+        </div>
+      </div>
     </main>
+    <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>

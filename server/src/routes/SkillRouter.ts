@@ -69,29 +69,29 @@ export class SkillRouter {
       }
     });
 
-    // POST /api/skills/:skillId/jobs/:jobId (attach skill to job)
-    this.router.post("/:skillId/jobs/:jobId", async (req: Request, res: Response) => {
+    // POST /api/skills/:skillId/applications/:appId (attach skill to application)
+    this.router.post("/:skillId/applications/:appId", async (req: Request, res: Response) => {
       try {
         const userId = getString(req.body.userId);
-        const jobId = getString(req.params.jobId);
+        const appId = getString(req.params.appId);
         const skillId = getString(req.params.skillId);
-        await this.skillService.attachToJob(userId, jobId, skillId);
-        res.json({ message: "Skill attached to job" });
+        await this.skillService.attachToApplication(userId, appId, skillId);
+        res.json({ message: "Skill attached to application" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to attach skill to job" });
+        res.status(500).json({ error: "Failed to attach skill to application" });
       }
     });
 
-    // DELETE /api/skills/:skillId/jobs/:jobId (detach skill from job)
-    this.router.delete("/:skillId/jobs/:jobId", async (req: Request, res: Response) => {
+    // DELETE /api/skills/:skillId/applications/:appId (detach skill from application)
+    this.router.delete("/:skillId/applications/:appId", async (req: Request, res: Response) => {
       try {
         const userId = getString(req.query.userId);
-        const jobId = getString(req.params.jobId);
+        const appId = getString(req.params.appId);
         const skillId = getString(req.params.skillId);
-        await this.skillService.detachFromJob(userId, jobId, skillId);
-        res.json({ message: "Skill detached from job" });
+        await this.skillService.detachFromApplication(userId, appId, skillId);
+        res.json({ message: "Skill detached from application" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to detach skill from job" });
+        res.status(500).json({ error: "Failed to detach skill from application" });
       }
     });
   }
