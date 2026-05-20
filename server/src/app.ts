@@ -27,11 +27,11 @@ app.get("/health", (_req: Request, res: Response) => {
 
 // Register API routes
 const userRouter = new UserRouter(container.userService);
-const jobRouter = new JobRouter(container.jobService);
+const applicationRouter = new JobRouter(container.applicationService);
 const contactRouter = new ContactRouter(container.contactService);
 const skillRouter = new SkillRouter(container.skillService);
 
 app.use("/api/users", userRouter.getRouter());
-app.use("/api/jobs", jobRouter.getRouter());
+app.use("/api/applications", applicationRouter.getRouter());
 app.use("/api/contacts", contactRouter.getRouter());
 app.use("/api/skills", skillRouter.getRouter());
