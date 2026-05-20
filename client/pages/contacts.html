@@ -42,26 +42,20 @@
           <tr>
             <th></th>
             <th>Contact Name</th>
-            <th>Organization</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>
-              <button class="delete-btn">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </td>
-            <td>Test</td>
-            <td>Test</td>
-          </tr>
-        </tbody>
+        <tbody id="contacts-table"></tbody>
       </table>
       <div class="deleted-overlay hidden">
         <div class="deleted-content">
           <p>Once you delete this contact, you will be unable to re-add it.</p>
           <div>
-            <button class="confirm-delete secondary-btn">Delete</button>
+            <button
+              class="confirm-delete secondary-btn"
+              data-id="${contact.id}"
+            >
+              Delete
+            </button>
           </div>
           <div>
             <button class="cancel-delete secondary-btn">Cancel</button>
@@ -96,7 +90,6 @@
       </div>
     </main>
     <script src="../scripts/auth.js"></script>
-    <script src="../scripts/index.js"></script>
     <script>
       Auth.init().then(() => Auth.protect());
       document.getElementById("logout-btn").addEventListener("click", (e) => {
@@ -104,5 +97,6 @@
         Auth.signOut();
       });
     </script>
+    <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>

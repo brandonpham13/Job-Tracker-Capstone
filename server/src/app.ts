@@ -35,11 +35,11 @@ app.get("/api/auth/config", (_req: Request, res: Response) => {
 const auth = requireAuth(container.userService);
 
 const userRouter = new UserRouter(container.userService);
-const jobRouter = new JobRouter(container.jobService);
+const applicationRouter = new JobRouter(container.applicationService);
 const contactRouter = new ContactRouter(container.contactService);
 const skillRouter = new SkillRouter(container.skillService);
 
 app.use("/api/users", auth, userRouter.getRouter());
-app.use("/api/jobs", auth, jobRouter.getRouter());
+app.use("/api/applications", auth, applicationRouter.getRouter());
 app.use("/api/contacts", auth, contactRouter.getRouter());
 app.use("/api/skills", auth, skillRouter.getRouter());

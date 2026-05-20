@@ -72,7 +72,7 @@ export class ContactRouter {
         await this.contactService.attachToApplication(req.userId!, jobId, contactId);
         res.json({ message: "Contact attached to job" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to attach contact to job" });
+        res.status(500).json({ error: "Failed to attach contact to application" });
       }
     });
 
@@ -84,7 +84,7 @@ export class ContactRouter {
         await this.contactService.detachFromApplication(req.userId!, jobId, contactId);
         res.json({ message: "Contact detached from job" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to detach contact from job" });
+        res.status(500).json({ error: "Failed to detach contact from application" });
       }
     });
   }

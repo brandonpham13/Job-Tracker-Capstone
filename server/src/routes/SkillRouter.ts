@@ -72,7 +72,7 @@ export class SkillRouter {
         await this.skillService.attachToApplication(req.userId!, jobId, skillId);
         res.json({ message: "Skill attached to job" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to attach skill to job" });
+        res.status(500).json({ error: "Failed to attach skill to application" });
       }
     });
 
@@ -84,7 +84,7 @@ export class SkillRouter {
         await this.skillService.detachFromApplication(req.userId!, jobId, skillId);
         res.json({ message: "Skill detached from job" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to detach skill from job" });
+        res.status(500).json({ error: "Failed to detach skill from application" });
       }
     });
   }

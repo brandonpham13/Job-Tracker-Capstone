@@ -90,7 +90,6 @@
 
     </main>
     <script src="../scripts/auth.js"></script>
-    <script src="../scripts/index.js"></script>
     <script>
       Auth.init().then(() => Auth.protect());
       document.getElementById("logout-btn").addEventListener("click", (e) => {
@@ -98,5 +97,6 @@
         Auth.signOut();
       });
     </script>
+    <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>
