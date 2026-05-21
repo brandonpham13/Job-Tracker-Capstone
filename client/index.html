@@ -46,7 +46,7 @@
         const clerk = await Auth.ready;
 
         if (clerk.user) {
-          window.location.href = "/pages/index.html";
+          window.location.href = "/pages/home.html";
           return;
         }
 
@@ -56,7 +56,7 @@
 
         clerk.addListener(({ user }) => {
           if (user) {
-            window.location.href = "/pages/index.html";
+            window.location.href = "/pages/home.html";
           }
         });
       })();
