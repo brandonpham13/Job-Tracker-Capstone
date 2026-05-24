@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import { SkillService } from "../services/skill.js";
 import { getString } from "../utils/typeHelpers.js";
 
