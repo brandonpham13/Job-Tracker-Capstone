@@ -40,9 +40,18 @@ export class JobRouter {
         // POST /api/applications
         this.router.post("/", async (req: Request, res: Response) => {
             try {
-                const application = await this.applicationService.create(req.userId!, req.body);
+                const { role, company_name, status, application_date, job_description_text } = req.body;
+                const application = await this.applicationService.create(req.userId!, {
+                    role,
+                    company_name,
+                    status,
+                    application_date: application_date ? new Date(application_date) : null,
+                    job_description_text: job_description_text ?? null,
+                });
                 res.status(201).json(application);
             } catch (error) {
+                console.error("[POST /applications] body:", JSON.stringify(req.body));
+                console.error("[POST /applications] error:", error);
                 const message = error instanceof Error ? error.message : "Failed to create application";
                 res.status(400).json({ error: message });
             }
@@ -52,7 +61,14 @@ export class JobRouter {
         this.router.put("/:id", async (req: Request, res: Response) => {
             try {
                 const id = getString(req.params.id);
-                const updated = await this.applicationService.update(req.userId!, id, req.body);
+                const { role, company_name, status, application_date, job_description_text } = req.body;
+                const updated = await this.applicationService.update(req.userId!, id, {
+                    role,
+                    company_name,
+                    status,
+                    application_date: application_date ? new Date(application_date) : null,
+                    job_description_text: job_description_text ?? null,
+                });
                 res.json(updated);
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Failed to update application";

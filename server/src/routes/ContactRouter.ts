@@ -35,7 +35,13 @@ export class ContactRouter {
     // POST /api/contacts
     this.router.post("/", async (req: Request, res: Response) => {
       try {
-        const contact = await this.contactService.create(req.userId!, req.body);
+        const { name, linkedin_url, last_contact_date, notes } = req.body;
+        const contact = await this.contactService.create(req.userId!, {
+          name,
+          linkedin_url: linkedin_url ?? null,
+          last_contact_date: last_contact_date ? new Date(last_contact_date) : null,
+          notes: notes ?? null,
+        });
         res.status(201).json(contact);
       } catch (error) {
         res.status(500).json({ error: "Failed to create contact" });
@@ -46,7 +52,13 @@ export class ContactRouter {
     this.router.put("/:id", async (req: Request, res: Response) => {
       try {
         const id = getString(req.params.id);
-        const updated = await this.contactService.update(req.userId!, id, req.body);
+        const { name, linkedin_url, last_contact_date, notes } = req.body;
+        const updated = await this.contactService.update(req.userId!, id, {
+          name,
+          linkedin_url: linkedin_url ?? null,
+          last_contact_date: last_contact_date ? new Date(last_contact_date) : null,
+          notes: notes ?? null,
+        });
         res.json(updated);
       } catch (error) {
         res.status(500).json({ error: "Failed to update contact" });
