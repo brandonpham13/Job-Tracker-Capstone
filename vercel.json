@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "outputDirectory": "client",
+    "buildCommand": "cd server && npm install",
+    "functions": {
+        "server/src/api.ts": {
+            "runtime": "@vercel/node"
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "/server/src/api.ts"
+        }
+    ]
+}
