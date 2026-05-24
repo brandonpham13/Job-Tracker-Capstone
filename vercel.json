@@ -1,7 +1,12 @@
 {
     "version": 2,
     "outputDirectory": "client",
-    "buildCommand": "cd server && npm install",
+    "buildCommand": "cd server && npm install && npx prisma generate",
+    "functions": {
+        "server/src/api.ts": {
+            "memory": 256
+        }
+    },
     "rewrites": [
         {
             "source": "/api/:path*",
