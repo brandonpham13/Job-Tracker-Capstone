@@ -25,6 +25,9 @@ export function initAddContactsPage() {
 
     const payload = {
       name: formData.get("name"),
+      linkedin_url: formData.get("linkedin_url") || null,
+      last_contact_date: formData.get("last_contact_date") || null,
+      notes: formData.get("notes") || null,
     };
 
     try {

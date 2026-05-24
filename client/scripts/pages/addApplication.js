@@ -23,10 +23,11 @@ export function initAddApplicationsPage() {
     const userId = getCurrentUserId();
     const formData = new FormData(applicationForm);
 
+    const rawStatus = formData.get("status");
     const payload = {
       role: formData.get("role"),
       company_name: formData.get("company_name"),
-      status: formData.get("status"),
+      status: rawStatus ? rawStatus.toUpperCase() : undefined,
       application_date: formData.get("application_date") || null,
     };
 
@@ -37,7 +38,7 @@ export function initAddApplicationsPage() {
       showSuccess();
     } catch (err) {
       console.error("Failed to create application:", err);
-      alert("Could not create application. Try again.");
+      alert(`Could not create application: ${err.message}`);
     }
   });
   closeModal.addEventListener("click", hideSuccess);

@@ -66,87 +66,21 @@ if (contactsPage) {
 }
 
 if (addContactPage) {
-  import("./pages/addContact.js");
-
-  const contactForm = document.querySelector(".add-contact-form");
-  const successOverlay = document.querySelector(".success-overlay");
-  const closeModal = document.querySelector(".close-modal");
-
-  /* open success overlay */
-  const openSuccessOverlay = function () {
-    event.preventDefault();
-    successOverlay.classList.remove("hidden");
-  };
-
-  /* close success overlay */
-  const closeSuccess = function () {
-    successOverlay.classList.add("hidden");
-  };
-
-  contactForm.addEventListener("submit", openSuccessOverlay);
-  closeModal.addEventListener("click", closeSuccess);
+  import("./pages/addContact.js").then((m) => {
+    m.initAddContactsPage();
+  });
 }
 
 if (skillsPage) {
-  import("./pages/skills.js");
-
-  const deleteButton = document.querySelector(".delete-btn");
-  const confirmDelete = document.querySelector(".confirm-delete");
-  const cancelDelete = document.querySelector(".cancel-delete");
-  const deletedOverlay = document.querySelector(".deleted-overlay");
-  const filterSortOverlay = document.querySelector(".filter-sort-overlay");
-  const filterSkillsBtn = document.querySelector(".filter-sort-btn");
-  const clearFilters = document.querySelector(".clear-filters");
-  const submitFilters = document.querySelector(".submit-filters");
-
-  /* open delete application overlay */
-  const openDeletedOverlay = function () {
-    deletedOverlay.classList.remove("hidden");
-  };
-
-  /* close delete application overlay */
-  const closeDeletedOverlay = function () {
-    deletedOverlay.classList.add("hidden");
-  };
-
-  /* open filter-sort overlay */
-  const openFilerSortOverlay = function () {
-    filterSortOverlay.classList.remove("hidden");
-  };
-
-  /* close filter-sort  overlay */
-  const closeFilerSortOverlay = function () {
-    filterSortOverlay.classList.add("hidden");
-  };
-
-  filterSkillsBtn.addEventListener("click", openFilerSortOverlay);
-  clearFilters.addEventListener("click", closeFilerSortOverlay);
-  submitFilters.addEventListener("click", closeFilerSortOverlay);
-  deleteButton.addEventListener("click", openDeletedOverlay);
-  confirmDelete.addEventListener("click", closeDeletedOverlay);
-  cancelDelete.addEventListener("click", closeDeletedOverlay);
+  import("./pages/skills.js").then((m) => {
+    m.initSkillsPage();
+  });
 }
 
 if (addSkillPage) {
-  import("./pages/addSkill.js");
-
-  const skillForm = document.querySelector(".add-skill-form");
-  const successOverlay = document.querySelector(".success-overlay");
-  const closeModal = document.querySelector(".close-modal");
-
-  /* open success overlay */
-  const openSuccessOverlay = function () {
-    event.preventDefault();
-    successOverlay.classList.remove("hidden");
-  };
-
-  /* close success overlay */
-  const closeSuccess = function () {
-    successOverlay.classList.add("hidden");
-  };
-
-  skillForm.addEventListener("submit", openSuccessOverlay);
-  closeModal.addEventListener("click", closeSuccess);
+  import("./pages/addSkill.js").then((m) => {
+    m.initAddSkillsPage();
+  });
 }
 
 if (trendsPage) {
