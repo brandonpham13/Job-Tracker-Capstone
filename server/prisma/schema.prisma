@@ -28,6 +28,7 @@ datasource db {
 
 model User {
   user_id      String   @id @default(uuid())
+  clerk_id     String   @unique
   email        String   @unique
   created_at   DateTime @default(now())
   

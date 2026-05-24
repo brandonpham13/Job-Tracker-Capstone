@@ -7,7 +7,7 @@ export function initContactsPage() {
   const confirmDelete = document.querySelector(".confirm-delete");
   const cancelDelete = document.querySelector(".cancel-delete");
   const filterSortOverlay = document.querySelector(".filter-sort-overlay");
-  const filterSortButton = document.querySelector(".filter-sort-btn");
+  const filterSortButton = document.querySelector(".filter-contacts");
   const clearFilters = document.querySelector(".clear-filters");
   const submitFilters = document.querySelector(".submit-filters");
 
@@ -23,8 +23,15 @@ export function initContactsPage() {
       .map(
         (contact) => `
     <tr>
-      <td><button class="delete-btn" data-id="${contact.id}"><i class="fa-solid fa-trash"></i></button></td>
-      <td>${contact.name}</td>
+      <td><button class="delete-btn" data-id="${contact.contact_id}"><i class="fa-solid fa-trash"></i></button></td>
+      <td>
+        <a
+          href="edit-view-contact.html?id=${contact.contact_id}"
+          class="contact-link"
+        >
+        ${contact.name}
+        </a>
+      </td>
     </tr>
   `,
       )

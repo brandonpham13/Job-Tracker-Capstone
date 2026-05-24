@@ -21,7 +21,7 @@
           <li><a href="contacts.html">Contacts</a></li>
           <li><a href="skills.html">Skills</a></li>
           <li><a href="trends.html">Trends</a></li>
-          <li><a href="index.html">Logout</a></li>
+          <li><a href="#" id="logout-btn">Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -40,39 +40,21 @@
           />
         </div>
         <div class="edit-contact-form-row">
-          <label for="company">Company</label>
+          <label for="linkedin_url">LinkedIn</label>
           <input
-            id="company"
-            type="text"
-            name="company"
-            placeholder="Company or Organization"
+            id="linkedin_url"
+            type="url"
+            name="linkedin_url"
+            placeholder="LinkedIn URL"
           />
         </div>
         <div class="edit-contact-form-row">
-          <label for="role">Role</label>
+          <label for="last_contact_date">Last Contacted</label>
           <input
-            id="role"
-            type="text"
-            name="role"
-            placeholder="Contact's Role"
-          />
-        </div>
-        <div class="edit-contact-form-row">
-          <label for="phone">Phone Number</label>
-          <input
-            id="phone"
-            type="tel"
-            name="phone"
-            placeholder="123-456-7890"
-          />
-        </div>
-        <div class="edit-contact-form-row">
-          <label for="email">E-Mail Address</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="email@email.com"
+            id="last_contact_date"
+            type="datetime-local"
+            name="last_contact_date"
+            placeholder="Date"
           />
         </div>
         <div class="edit-contact-form-row">
@@ -87,6 +69,14 @@
         <button type="submit">Update</button>
       </form>
     </main>
+    <script src="../scripts/auth.js"></script>
+    <script>
+      Auth.init().then(() => Auth.protect());
+      document.getElementById("logout-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        Auth.signOut();
+      });
+    </script>
     <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>

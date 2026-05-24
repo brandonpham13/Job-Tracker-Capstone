@@ -15,7 +15,7 @@ export function initSkillsPage() {
 
   let selectedSkillId = null;
 
-  async function loadSKills() {
+  async function loadSkills() {
     const userId = getCurrentUserId();
     const skills = await SkillsAPI.list(userId);
 
@@ -23,9 +23,16 @@ export function initSkillsPage() {
       .map(
         (skill) => `
     <tr>
-      <td><button class="delete-btn" data-id="${skill.id}"><i class="fa-solid fa-trash"></i></button></td>
-      <td>${skill.skill_name}</td>
-      <td>${skill.category}</td>
+      <td><button class="delete-btn" data-id="${skill.skill_id}"><i class="fa-solid fa-trash"></i></button></td>
+      <td>
+        <a
+          href="edit-view-skill.html?id=${skill.skill_id}"
+          class="skill-link"
+        >
+          ${skill.skill_name}
+        </a>
+      </td>
+      <td>${skill.category ?? ""}</td>
     </tr>
   `,
       )

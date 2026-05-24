@@ -23,8 +23,15 @@ export function initApplicationsPage() {
       .map(
         (app) => `
     <tr>
-      <td><button class="delete-btn" data-id="${app.id}"><i class="fa-solid fa-trash"></i></button></td>
-      <td>${app.role}</td>
+      <td><button class="delete-btn" data-id="${app.app_id}"><i class="fa-solid fa-trash"></i></button></td>
+      <td>
+        <a
+          href="edit-view-application.html?id=${app.app_id}"
+          class="application-link"
+        >
+          ${app.role}
+        </a>
+      </td>
       <td>${app.company_name}</td>
       <td>${app.status}</td>
     </tr>

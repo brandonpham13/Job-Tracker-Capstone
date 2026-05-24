@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Job Tracker Registration</title>
-    <link rel="stylesheet" href="../styles/style.css" />
+    <title>Job Tracker - Sign In</title>
+    <link rel="stylesheet" href="styles/style.css" />
     <style>
-      #sign-up-container {
+      #sign-in-container {
         width: 100%;
         display: flex;
         justify-content: center;
@@ -24,32 +24,41 @@
   <body>
     <main class="login">
       <img
-        src="../images/resumes.png"
+        src="images/resumes.png"
         alt="stack of resumes"
         class="login-banner"
       />
       <h1>Job Tracker App</h1>
-      <h2>Registration</h2>
-      <p class="registration-description">Create your account</p>
-      <div id="sign-up-container">
+      <p class="app-intro">
+        A place to log your job and internship applications. You can track the
+        applications status, skill requirements, and contact data, along with
+        summary for skill requirements.
+      </p>
+      <div id="sign-in-container">
         <p class="landing-loading">Loading...</p>
       </div>
     </main>
 
-    <script src="../scripts/auth.js"></script>
+    <script src="scripts/auth.js"></script>
     <script>
       (async function () {
         await Auth.init();
         const clerk = await Auth.ready;
 
         if (clerk.user) {
-          window.location.href = "/pages/applications.html";
+          window.location.href = "/pages/home.html";
           return;
         }
 
-        const container = document.getElementById("sign-up-container");
+        const container = document.getElementById("sign-in-container");
         container.innerHTML = "";
-        clerk.mountSignUp(container);
+        clerk.mountSignIn(container);
+
+        clerk.addListener(({ user }) => {
+          if (user) {
+            window.location.href = "/pages/home.html";
+          }
+        });
       })();
     </script>
   </body>

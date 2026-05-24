@@ -25,7 +25,7 @@
           <li><a href="contacts.html">Contacts</a></li>
           <li><a href="skills.html">Skills</a></li>
           <li><a href="trends.html">Trends</a></li>
-          <li><a href="index.html">Logout</a></li>
+          <li><a href="#" id="logout-btn">Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -83,13 +83,12 @@
               <label>Job Status:</label>
               <select>
                 <option value="">Select a status</option>
-                <option value="saved">Saved</option>
-                <option value="applied">Applied</option>
-                <option value="interviewing">Interviewing</option>
-                <option value="offer">Offer</option>
-                <option value="rejected">Rejected</option>
-                <option value="accepted">Accepted</option>
-                <option value="withdrawn">Withdrawn</option>
+                <option value="APPLIED">Applied</option>
+                <option value="INTERVIEWING">Interviewing</option>
+                <option value="Offer">Offer</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="ACCEPTED">Accepted</option>
+                <option value="WITHDRAWN">Withdrawn</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
@@ -114,6 +113,14 @@
         </div>
       </div>
     </main>
+    <script src="../scripts/auth.js"></script>
+    <script>
+      Auth.init().then(() => Auth.protect());
+      document.getElementById("logout-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        Auth.signOut();
+      });
+    </script>
     <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>

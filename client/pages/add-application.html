@@ -20,7 +20,7 @@
           <li><a href="contacts.html">Contacts</a></li>
           <li><a href="skills.html">Skills</a></li>
           <li><a href="trends.html">Trends</a></li>
-          <li><a href="index.html">Logout</a></li>
+          <li><a href="#" id="logout-btn">Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -55,13 +55,12 @@
           <label for="status">Status</label>
           <select class="application-status" name="status" required>
             <option value="">Select a status</option>
-            <option value="saved">Saved</option>
-            <option value="applied">Applied</option>
-            <option value="interviewing">Interviewing</option>
-            <option value="offer">Offer</option>
-            <option value="rejected">Rejected</option>
-            <option value="accepted">Accepted</option>
-            <option value="withdrawn">Withdrawn</option>
+            <option value="APPLIED">Applied</option>
+            <option value="INTERVIEWING">Interviewing</option>
+            <option value="OFFER">Offer</option>
+            <option value="REJECTED">Rejected</option>
+            <option value="ACCEPTED">Accepted</option>
+            <option value="WITHDRAWN">Withdrawn</option>
           </select>
         </div>
         <div class="add-application-form-row">
@@ -125,12 +124,23 @@
               alt="hand check off to-do list"
             />
           </div>
-          <div>
-            <button class="close-modal secondary-btn">OK</button>
+          <div class="modal-actions">
+            <button class="submit-another secondary-btn">Submit Another</button>
+            <a href="applications.html" class="secondary-btn"
+              >View Applications</a
+            >
           </div>
         </div>
       </div>
     </main>
+    <script src="../scripts/auth.js"></script>
+    <script>
+      Auth.init().then(() => Auth.protect());
+      document.getElementById("logout-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        Auth.signOut();
+      });
+    </script>
     <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>

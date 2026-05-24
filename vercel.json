@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "outputDirectory": "client",
+    "buildCommand": "cd server && npm install && npx prisma generate",
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "/api/index.ts"
+        }
+    ]
+}

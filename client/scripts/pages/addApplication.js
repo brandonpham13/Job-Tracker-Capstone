@@ -3,19 +3,14 @@ import { ApplicationsAPI, getCurrentUserId } from "../api/fetch_api.js";
 export function initAddApplicationsPage() {
   const applicationForm = document.querySelector(".add-application-form");
   const successOverlay = document.querySelector(".success-overlay");
-  const closeModal = document.querySelector(".close-modal");
+  const submitAnother = document.querySelector(".submit-another");
 
-  if (!applicationForm || !successOverlay || !closeModal) return;
+  if (!applicationForm || !successOverlay) return;
 
-  function showSuccess() {
-    successOverlay.classList.remove("hidden");
-  }
-
-  function hideSuccess() {
+  submitAnother.addEventListener("click", () => {
     successOverlay.classList.add("hidden");
-  }
-
-  closeModal.addEventListener("click", hideSuccess);
+    applicationForm.reset();
+  });
 
   applicationForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -23,22 +18,20 @@ export function initAddApplicationsPage() {
     const userId = getCurrentUserId();
     const formData = new FormData(applicationForm);
 
+    const rawStatus = formData.get("status");
     const payload = {
       role: formData.get("role"),
       company_name: formData.get("company_name"),
-      status: formData.get("status"),
+      status: rawStatus ? rawStatus.toUpperCase() : undefined,
       application_date: formData.get("application_date") || null,
     };
 
     try {
       await ApplicationsAPI.create(userId, payload);
-
-      applicationForm.reset();
-      showSuccess();
+      successOverlay.classList.remove("hidden");
     } catch (err) {
       console.error("Failed to create application:", err);
-      alert("Could not create application. Try again.");
+      alert(`Could not create application: ${err.message}`);
     }
   });
-  closeModal.addEventListener("click", hideSuccess);
 }

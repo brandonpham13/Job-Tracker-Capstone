@@ -3,13 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Application Trends</title>
+    <title>Job Tracker</title>
     <link rel="stylesheet" href="../styles/style.css" />
   </head>
   <body>
     <nav class="nav">
       <div class="nav-left">
-        <img src="../images/trends.png" alt="graphs" class="clipboard-image" />
+        <img
+          src="../images/clipboard.png"
+          alt="clipboard with resumes and applications"
+          class="clipboard-image"
+        />
       </div>
       <div class="nav-links">
         <ul>
@@ -21,21 +25,21 @@
         </ul>
       </div>
     </nav>
-    <main class="summary-data">
-      <h1>Trends</h1>
-      <h2>Application Trends</h2>
-      <h3>Top Required Skills:</h3>
-      <ul>
-        <li>Test</li>
-        <li>Test</li>
-        <li>Test</li>
-      </ul>
-      <h3>Top Applications that Match Your Skills:</h3>
-      <ul>
-        <li>Test</li>
-        <li>Test</li>
-        <li>Test</li>
-      </ul>
+    <main class="my-applications">
+      <h1>Job Tracker App</h1>
+      <p class="app-intro">
+        A place to log your job and internship applications. You can track the
+        applications status, skill requirements, and contact data, along with
+        summary for skill requirements.
+      </p>
+      <div class="button-row" style="justify-content: center; gap: 20px">
+        <a href="applications.html" class="new-application-btn primary-btn"
+          >My Applications</a
+        >
+        <a href="contacts.html" class="new-contact-btn primary-btn"
+          >My Contacts</a
+        >
+      </div>
     </main>
     <script src="../scripts/auth.js"></script>
     <script>
@@ -45,6 +49,5 @@
         Auth.signOut();
       });
     </script>
-    <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>
