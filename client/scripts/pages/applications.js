@@ -23,7 +23,7 @@ export function initApplicationsPage() {
       .map(
         (app) => `
     <tr>
-      <td><button class="delete-btn" data-id="${app.id}"><i class="fa-solid fa-trash"></i></button></td>
+      <td><button class="delete-btn" data-id="${app.app_id}"><i class="fa-solid fa-trash"></i></button></td>
       <td>${app.role}</td>
       <td>${app.company_name}</td>
       <td>${app.status}</td>

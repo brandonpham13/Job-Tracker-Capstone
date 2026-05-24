@@ -26,43 +26,9 @@ if (addApplicationPage) {
 }
 
 if (contactsPage) {
-  import("./pages/contacts.js");
-
-  const deleteButton = document.querySelector(".delete-btn");
-  const confirmDelete = document.querySelector(".confirm-delete");
-  const cancelDelete = document.querySelector(".cancel-delete");
-  const deletedOverlay = document.querySelector(".deleted-overlay");
-  const filterSortOverlay = document.querySelector(".filter-sort-overlay");
-  const filterContactsBtn = document.querySelector(".filter-contacts");
-  const clearFilters = document.querySelector(".clear-filters");
-  const submitFilters = document.querySelector(".submit-filters");
-
-  /* open delete application overlay */
-  const openDeletedOverlay = function () {
-    deletedOverlay.classList.remove("hidden");
-  };
-
-  /* close delete application overlay */
-  const closeDeletedOverlay = function () {
-    deletedOverlay.classList.add("hidden");
-  };
-
-  /* open filter-sort overlay */
-  const openFilerSortOverlay = function () {
-    filterSortOverlay.classList.remove("hidden");
-  };
-
-  /* close filter-sort  overlay */
-  const closeFilerSortOverlay = function () {
-    filterSortOverlay.classList.add("hidden");
-  };
-
-  filterContactsBtn.addEventListener("click", openFilerSortOverlay);
-  clearFilters.addEventListener("click", closeFilerSortOverlay);
-  submitFilters.addEventListener("click", closeFilerSortOverlay);
-  deleteButton.addEventListener("click", openDeletedOverlay);
-  confirmDelete.addEventListener("click", closeDeletedOverlay);
-  cancelDelete.addEventListener("click", closeDeletedOverlay);
+  import("./pages/contacts.js").then((m) => {
+    m.initContactsPage();
+  });
 }
 
 if (addContactPage) {
