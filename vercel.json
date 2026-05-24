@@ -2,9 +2,6 @@
     "version": 2,
     "outputDirectory": "client",
     "buildCommand": "cd server && npm install",
-    "functions": {
-        "server/src/api.ts": {}
-    },
     "rewrites": [
         {
             "source": "/api/:path*",
