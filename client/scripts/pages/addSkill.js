@@ -3,19 +3,14 @@ import { SkillsAPI, getCurrentUserId } from "../api/fetch_api.js";
 export function initAddSkillsPage() {
   const skillForm = document.querySelector(".add-skill-form");
   const successOverlay = document.querySelector(".success-overlay");
-  const closeModal = document.querySelector(".close-modal");
+  const submitAnother = document.querySelector(".submit-another");
 
-  if (!skillForm || !successOverlay || !closeModal) return;
+  if (!skillForm || !successOverlay) return;
 
-  function showSuccess() {
-    successOverlay.classList.remove("hidden");
-  }
-
-  function hideSuccess() {
+  submitAnother.addEventListener("click", () => {
     successOverlay.classList.add("hidden");
-  }
-
-  closeModal.addEventListener("click", hideSuccess);
+    skillForm.reset();
+  });
 
   skillForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -30,13 +25,10 @@ export function initAddSkillsPage() {
 
     try {
       await SkillsAPI.create(userId, payload);
-
-      skillForm.reset();
-      showSuccess();
+      successOverlay.classList.remove("hidden");
     } catch (err) {
       console.error("Failed to create skill:", err);
       alert("Could not create skill. Try again.");
     }
   });
-  closeModal.addEventListener("click", hideSuccess);
 }

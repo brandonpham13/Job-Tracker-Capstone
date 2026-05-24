@@ -38,6 +38,7 @@ export function requireAuth(userService: UserService) {
 
             next();
         } catch (error) {
+            console.error("[requireAuth] error:", error);
             res.status(401).json({ error: "Authentication failed" });
         }
     };

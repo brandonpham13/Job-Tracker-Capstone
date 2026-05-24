@@ -1,11 +1,12 @@
 const API_BASE = "/api";
 
 async function request(path, options = {}) {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await window.Auth.apiFetch(`${API_BASE}${path}`, {
+    ...options,
     headers: {
       "Content-Type": "application/json",
+      ...(options.headers || {}),
     },
-    ...options,
   });
 
   if (!res.ok) {
@@ -24,7 +25,7 @@ export const ApplicationsAPI = {
   create(userId, data) {
     return request(`/applications`, {
       method: "POST",
-      body: JSON.stringify({ userId, ...data }),
+      body: JSON.stringify(data),
     });
   },
 
@@ -43,7 +44,7 @@ export const ContactsAPI = {
   create(userId, data) {
     return request(`/contacts`, {
       method: "POST",
-      body: JSON.stringify({ userId, ...data }),
+      body: JSON.stringify(data),
     });
   },
 
@@ -62,7 +63,7 @@ export const SkillsAPI = {
   create(userId, data) {
     return request(`/skills`, {
       method: "POST",
-      body: JSON.stringify({ userId, ...data }),
+      body: JSON.stringify(data),
     });
   },
 

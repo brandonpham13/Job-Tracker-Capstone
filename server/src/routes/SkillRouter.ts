@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import { SkillService } from "../services/skill.js";
 import { getString } from "../utils/typeHelpers.js";
 
@@ -35,7 +35,8 @@ export class SkillRouter {
     // POST /api/skills
     this.router.post("/", async (req: Request, res: Response) => {
       try {
-        const skill = await this.skillService.create(req.body);
+        const { skill_name, category } = req.body;
+        const skill = await this.skillService.create({ skill_name, category: category ?? null });
         res.status(201).json(skill);
       } catch (error) {
         res.status(500).json({ error: "Failed to create skill" });
@@ -46,7 +47,8 @@ export class SkillRouter {
     this.router.put("/:id", async (req: Request, res: Response) => {
       try {
         const id = getString(req.params.id);
-        const updated = await this.skillService.update(id, req.body);
+        const { skill_name, category } = req.body;
+        const updated = await this.skillService.update(id, { skill_name, category: category ?? null });
         res.json(updated);
       } catch (error) {
         res.status(500).json({ error: "Failed to update skill" });

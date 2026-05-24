@@ -23,7 +23,7 @@ export function initContactsPage() {
       .map(
         (contact) => `
     <tr>
-      <td><button class="delete-btn" data-id="${contact.id}"><i class="fa-solid fa-trash"></i></button></td>
+      <td><button class="delete-btn" data-id="${contact.contact_id}"><i class="fa-solid fa-trash"></i></button></td>
       <td>${contact.name}</td>
     </tr>
   `,
