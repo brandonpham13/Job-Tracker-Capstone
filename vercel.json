@@ -3,9 +3,7 @@
     "outputDirectory": "client",
     "buildCommand": "cd server && npm install",
     "functions": {
-        "server/src/api.ts": {
-            "runtime": "@vercel/node"
-        }
+        "server/src/api.ts": {}
     },
     "rewrites": [
         {
