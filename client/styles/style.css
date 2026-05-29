@@ -397,6 +397,23 @@ select {
   display: none;
 }
 
+.modal-actions {
+  display: flex;
+}
+
+.modal-actions a,
+.modal-actions button {
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: var(--font-weight);
+  height: 35px;
+  margin-top: 25px;
+  width: 45%;
+  cursor: pointer;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
 /* =========================
    Utility Fixes
 ========================= */
@@ -417,4 +434,21 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* =========================
+ Home.html
+========================= */
+#sign-in-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  min-height: 200px;
+}
+.landing-loading {
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  padding: 40px 0;
 }

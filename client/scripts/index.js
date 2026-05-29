@@ -25,6 +25,12 @@ if (addApplicationPage) {
   });
 }
 
+if (editApplicationPage) {
+  import("./pages/editApplication.js").then((m) => {
+    m.initEditApplicationPage();
+  });
+}
+
 if (contactsPage) {
   import("./pages/contacts.js").then((m) => {
     m.initContactsPage();
@@ -37,6 +43,12 @@ if (addContactPage) {
   });
 }
 
+if (editContactPage) {
+  import("./pages/editContact.js").then((m) => {
+    m.initEditContactPage();
+  });
+}
+
 if (skillsPage) {
   import("./pages/skills.js").then((m) => {
     m.initSkillsPage();
@@ -46,6 +58,12 @@ if (skillsPage) {
 if (addSkillPage) {
   import("./pages/addSkill.js").then((m) => {
     m.initAddSkillsPage();
+  });
+}
+
+if (editSkillPage) {
+  import("./pages/editSkill.js").then((m) => {
+    m.initEditSkillPage();
   });
 }
 

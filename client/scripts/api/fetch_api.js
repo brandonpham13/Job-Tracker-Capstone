@@ -34,6 +34,17 @@ export const ApplicationsAPI = {
       method: "DELETE",
     });
   },
+
+  getById(id, userId) {
+    return request(`/applications/${id}?userId=${userId}`);
+  },
+
+  update(id, userId, data) {
+    return request(`/applications/${id}?userId=${userId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  },
 };
 
 export const ContactsAPI = {
@@ -53,6 +64,17 @@ export const ContactsAPI = {
       method: "DELETE",
     });
   },
+
+  getById(id, userId) {
+    return request(`/contacts/${id}?userId=${userId}`);
+  },
+
+  update(id, userId, data) {
+    return request(`/contacts/${id}?userId=${userId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  },
 };
 
 export const SkillsAPI = {
@@ -70,6 +92,17 @@ export const SkillsAPI = {
   delete(id, userId) {
     return request(`/skills/${id}?userId=${userId}`, {
       method: "DELETE",
+    });
+  },
+
+  getById(id, userId) {
+    return request(`/skills/${id}?userId=${userId}`);
+  },
+
+  update(id, userId, data) {
+    return request(`/skills/${id}?userId=${userId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
     });
   },
 };

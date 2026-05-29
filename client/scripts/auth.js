@@ -42,18 +42,20 @@
 
       if (!publishableKey) {
         throw new Error(
-          "Missing CLERK_PUBLISHABLE_KEY – check your server .env"
+          "Missing CLERK_PUBLISHABLE_KEY – check your server .env",
         );
       }
 
       const clerkDomain = atob(publishableKey.split("_")[2]).slice(0, -1);
 
       await loadScript(
-        "https://" + clerkDomain + "/npm/@clerk/ui@1/dist/ui.browser.js"
+        "https://" + clerkDomain + "/npm/@clerk/ui@1/dist/ui.browser.js",
       );
       await loadScript(
-        "https://" + clerkDomain + "/npm/@clerk/clerk-js@6/dist/clerk.browser.js",
-        { "data-clerk-publishable-key": publishableKey }
+        "https://" +
+          clerkDomain +
+          "/npm/@clerk/clerk-js@6/dist/clerk.browser.js",
+        { "data-clerk-publishable-key": publishableKey },
       );
 
       clerkInstance = window.Clerk;

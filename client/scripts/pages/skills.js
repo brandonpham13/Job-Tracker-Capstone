@@ -24,7 +24,14 @@ export function initSkillsPage() {
         (skill) => `
     <tr>
       <td><button class="delete-btn" data-id="${skill.skill_id}"><i class="fa-solid fa-trash"></i></button></td>
-      <td>${skill.skill_name}</td>
+      <td>
+        <a
+          href="edit-view-skill.html?id=${skill.skill_id}"
+          class="skill-link"
+        >
+          ${skill.skill_name}
+        </a>
+      </td>
       <td>${skill.category ?? ""}</td>
     </tr>
   `,
