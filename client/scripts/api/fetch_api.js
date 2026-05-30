@@ -52,6 +52,14 @@ export const ContactsAPI = {
     return request(`/contacts?userId=${userId}`);
   },
 
+  async findByName(userId, contactName) {
+    const contacts = await request(`/contacts?userId=${userId}`);
+
+    return contacts.find(
+      (contact) => contact.name.toLowerCase() === contactName.toLowerCase(),
+    );
+  },
+
   create(userId, data) {
     return request(`/contacts`, {
       method: "POST",
@@ -82,6 +90,14 @@ export const SkillsAPI = {
     return request(`/skills?userId=${userId}`);
   },
 
+  async findByName(userId, skillName) {
+    const skills = await request(`/skills?userId=${userId}`);
+
+    return skills.find(
+      (skill) => skill.skill_name.toLowerCase() === skillName.toLowerCase(),
+    );
+  },
+
   create(userId, data) {
     return request(`/skills`, {
       method: "POST",
@@ -107,10 +123,46 @@ export const SkillsAPI = {
   },
 };
 
+export const ApplicationSkillsAPI = {
+  listByApplication(appId) {
+    return request(`/application-skills/${appId}`);
+  },
+
+  create(appId, skillId) {
+    return request(`/application-skills/${appId}/${skillId}`, {
+      method: "POST",
+    });
+  },
+
+  delete(appId, skillId) {
+    return request(`/application-skills/${appId}/${skillId}`, {
+      method: "DELETE",
+    });
+  },
+};
+
+export const ApplicationContactsAPI = {
+  listByApplication(appId) {
+    return request(`/application-contacts/${appId}`);
+  },
+
+  create(appId, contactId) {
+    return request(`/application-contacts/${appId}/${contactId}`, {
+      method: "POST",
+    });
+  },
+
+  delete(appId, contactId) {
+    return request(`/application-contacts/${appId}/${contactId}`, {
+      method: "DELETE",
+    });
+  },
+};
+
 export function getCurrentUserId() {
-  return localStorage.getItem("userId") || "demo-user";
+  return localStorage.getItem("userId");
 }
 
 export function setCurrentUserId(id) {
-  localStorage.setItem("userId", id);
+  return localStorage.setItem("userId", id);
 }

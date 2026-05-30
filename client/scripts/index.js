@@ -68,5 +68,7 @@ if (editSkillPage) {
 }
 
 if (trendsPage) {
-  import("./pages/trends.js");
+  import("./pages/trends.js").then((m) => {
+    m.initTrendsPage();
+  });
 }

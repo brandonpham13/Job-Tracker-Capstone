@@ -8,6 +8,8 @@ import { UserRouter } from "./routes/UserRouter.js";
 import { JobRouter } from "./routes/JobRouter.js";
 import { ContactRouter } from "./routes/ContactRouter.js";
 import { SkillRouter } from "./routes/SkillRouter.js";
+import { ApplicationSkillRouter } from "./routes/ApplicationSkillRouter.js";
+import { ApplicationContactRouter } from "./routes/ApplicationContactRouter.js";
 
 export const app = express();
 const container = new Container(prisma);
@@ -24,11 +26,11 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 app.get("/health", (_req: Request, res: Response) => {
-    res.json({ status: "ok" });
+  res.json({ status: "ok" });
 });
 
 app.get("/api/auth/config", (_req: Request, res: Response) => {
-    res.json({ publishableKey: process.env.CLERK_PUBLISHABLE_KEY });
+  res.json({ publishableKey: process.env.CLERK_PUBLISHABLE_KEY });
 });
 
 // All /api routes below require authentication
@@ -38,6 +40,20 @@ const userRouter = new UserRouter(container.userService);
 const applicationRouter = new JobRouter(container.applicationService);
 const contactRouter = new ContactRouter(container.contactService);
 const skillRouter = new SkillRouter(container.skillService);
+const applicationSkillRouter = new ApplicationSkillRouter(
+  container.applicationSkillService,
+);
+
+const applicationContactRouter = new ApplicationContactRouter(
+  container.applicationContactService,
+);
+
+app.use("/api/application-skills", auth, applicationSkillRouter.getRouter());
+app.use(
+  "/api/application-contacts",
+  auth,
+  applicationContactRouter.getRouter(),
+);
 
 app.use("/api/users", auth, userRouter.getRouter());
 app.use("/api/applications", auth, applicationRouter.getRouter());

@@ -7,6 +7,7 @@
  *   Auth.signOut()   – signs the user out and redirects to landing
  *   Auth.ready       – a Promise that resolves once Clerk is fully loaded
  */
+
 (function () {
   let clerkInstance = null;
   let readyResolve;

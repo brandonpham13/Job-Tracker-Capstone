@@ -452,3 +452,10 @@ select {
   text-align: center;
   padding: 40px 0;
 }
+
+/* =========================
+ Trends.html
+========================= */
+.trends li {
+  padding: 5px;
+}
