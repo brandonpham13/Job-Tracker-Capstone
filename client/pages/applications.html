@@ -70,18 +70,17 @@
           <form>
             <div class="filter-sort-modal-row">
               <label>Sort by:</label>
-              <select>
+              <select id="sort-select">
                 <option value="">Select an option</option>
-                <option value="location">Location</option>
-                <option value="type">Position Type</option>
                 <option value="status">Status</option>
-                <option value="appliedAt">Date Applied</option>
+                <option value="organization">Organization</option>
+                <option value="position-name">Position</option>
               </select>
             </div>
             <p>Select the filters you would like to apply.</p>
             <div class="filter-sort-modal-row">
               <label>Job Status:</label>
-              <select>
+              <select id="filter-status-select">
                 <option value="">Select a status</option>
                 <option value="APPLIED">Applied</option>
                 <option value="INTERVIEWING">Interviewing</option>
@@ -93,19 +92,21 @@
             </div>
             <div class="filter-sort-modal-row">
               <label>Skill:</label>
-              <select>
+              <select id="filter-skill-select">
                 <option value="">Select an option</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
               <label>Organization:</label>
-              <select>
+              <select id="filter-organization-select">
                 <option value="">Select an option</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
-              <button class="secondary-btn clear-filters">Clear Filters</button>
-              <button class="secondary-btn submit-filters" type="submit">
+              <button class="secondary-btn clear-filters" type="button">
+                Clear Filters
+              </button>
+              <button class="secondary-btn submit-filters" type="button">
                 Submit
               </button>
             </div>

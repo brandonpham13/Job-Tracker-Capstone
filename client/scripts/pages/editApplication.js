@@ -1,4 +1,11 @@
-import { ApplicationsAPI, getCurrentUserId } from "../api/fetch_api.js";
+import {
+  ApplicationsAPI,
+  ApplicationSkillsAPI,
+  ApplicationContactsAPI,
+  getCurrentUserId,
+  SkillsAPI,
+  ContactsAPI,
+} from "../api/fetch_api.js";
 
 export async function initEditApplicationPage() {
   const form = document.querySelector(".edit-application-form");
@@ -27,6 +34,10 @@ export async function initEditApplicationPage() {
 
   try {
     const app = await ApplicationsAPI.getById(appId, userId);
+    const skills = await ApplicationSkillsAPI.listByApplication(appId);
+    const contacts = await ApplicationContactsAPI.listByApplication(appId);
+
+    console.log("Application data:", app);
 
     // Pre-populate main application data
     roleInput.value = app.role || "";
@@ -39,14 +50,14 @@ export async function initEditApplicationPage() {
     }
 
     // Pre-populate skills
-    skill1.value = app.skills?.[0] || "";
-    skill2.value = app.skills?.[1] || "";
-    skill3.value = app.skills?.[2] || "";
+    skill1.value = skills[0]?.skill?.skill_name || "";
+    skill2.value = skills[1]?.skill?.skill_name || "";
+    skill3.value = skills[2]?.skill?.skill_name || "";
 
     // Pre-populate contacts
-    contact1.value = app.contacts?.[0] || "";
-    contact2.value = app.contacts?.[1] || "";
-    contact3.value = app.contacts?.[2] || "";
+    contact1.value = contacts[0]?.contact?.name || "";
+    contact2.value = contacts[1]?.contact?.name || "";
+    contact3.value = contacts[2]?.contact?.name || "";
   } catch (err) {
     console.error("Failed loading application:", err);
   }
@@ -62,17 +73,54 @@ export async function initEditApplicationPage() {
       company_name: companyInput.value,
       status: rawStatus ? rawStatus.toUpperCase() : undefined,
       application_date: dateInput.value,
-
-      skills: [skill1.value, skill2.value, skill3.value].filter(Boolean),
-
-      contacts: [contact1.value, contact2.value, contact3.value].filter(
-        Boolean,
-      ),
     };
 
     try {
       await ApplicationsAPI.update(appId, userId, updatedData);
+      const skillInputs = [skill1.value, skill2.value, skill3.value]
+        .filter(Boolean)
+        .map((s) => s.trim());
 
+      const existingSkills =
+        await ApplicationSkillsAPI.listByApplication(appId);
+      for (const s of existingSkills) {
+        await ApplicationSkillsAPI.delete(appId, s.skill_id);
+      }
+
+      for (const skillName of skillInputs) {
+        let skill = await SkillsAPI.findByName(userId, skillName);
+
+        if (!skill) {
+          skill = await SkillsAPI.create(userId, {
+            skill_name: skillName,
+            category: "None",
+          });
+        }
+
+        await ApplicationSkillsAPI.create(appId, skill.skill_id);
+      }
+
+      const contactInputs = [contact1.value, contact2.value, contact3.value]
+        .filter(Boolean)
+        .map((c) => c.trim());
+
+      const existingContacts =
+        await ApplicationContactsAPI.listByApplication(appId);
+      for (const c of existingContacts) {
+        await ApplicationContactsAPI.delete(appId, c.contact_id);
+      }
+
+      for (const contactName of contactInputs) {
+        let contact = await ContactsAPI.findByName(userId, contactName);
+
+        if (!contact) {
+          contact = await ContactsAPI.create(userId, {
+            name: contactName,
+          });
+        }
+
+        await ApplicationContactsAPI.create(appId, contact.contact_id);
+      }
       window.location.href = "applications.html";
     } catch (err) {
       console.error("Update failed:", err);

@@ -68,20 +68,26 @@
           <p>Select the filters you would like to apply.</p>
           <form>
             <div class="filter-sort-modal-row">
-              <label>Location:</label>
-              <select>
-                <option value="">Select an option</option>
+              <label>Sort:</label>
+              <select id="sort-select">
+                <option value=""></option>
+                <option value="last-contact-date">Date Last Contacted</option>
+                <option value="name">Name</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
-              <label>Organization:</label>
-              <select>
-                <option value="">Select an option</option>
+              <label>filter-sort-btn:</label>
+              <select id="filter-select">
+                <option value=""></option>
+                <option value="notes">Notes</option>
+                <option value="no-notes">No Notes</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
-              <button class="secondary-btn clear-filters">Clear Filters</button>
-              <button class="secondary-btn submit-filters" type="submit">
+              <button class="secondary-btn clear-filters" type="button">
+                Clear Filters
+              </button>
+              <button class="secondary-btn submit-filters" type="button">
                 Submit
               </button>
             </div>

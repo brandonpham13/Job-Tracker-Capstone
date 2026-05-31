@@ -38,17 +38,11 @@
         <p class="landing-loading">Loading...</p>
       </div>
     </main>
-
     <script src="scripts/auth.js"></script>
     <script>
       (async function () {
         await Auth.init();
         const clerk = await Auth.ready;
-
-        if (clerk.user) {
-          window.location.href = "/pages/home.html";
-          return;
-        }
 
         const container = document.getElementById("sign-in-container");
         container.innerHTML = "";
@@ -56,6 +50,7 @@
 
         clerk.addListener(({ user }) => {
           if (user) {
+            localStorage.setItem("userId", user.id);
             window.location.href = "/pages/home.html";
           }
         });

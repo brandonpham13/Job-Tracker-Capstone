@@ -65,7 +65,7 @@
           <form>
             <div class="filter-sort-modal-row">
               <label>Sort by:</label>
-              <select>
+              <select id="sort-select">
                 <option value="">Select an option</option>
                 <option value="category">Category</option>
               </select>
@@ -73,13 +73,15 @@
             <p>Select the filters you would like to apply.</p>
             <div class="filter-sort-modal-row">
               <label>Category:</label>
-              <select>
+              <select id="category-select">
                 <option value="">Select an option</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
-              <button class="secondary-btn clear-filters">Clear Filters</button>
-              <button class="secondary-btn submit-filters" type="submit">
+              <button class="secondary-btn clear-filters" type="button">
+                Clear Filters
+              </button>
+              <button class="secondary-btn submit-filters" type="button">
                 Submit
               </button>
             </div>
