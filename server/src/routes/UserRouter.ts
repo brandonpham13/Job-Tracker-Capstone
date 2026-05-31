@@ -11,14 +11,33 @@ export class UserRouter {
   }
 
   private setupRoutes() {
+    // POST /api/users (signup/register)
+    this.router.post("/", async (req: Request, res: Response) => {
+      try {
+        const { email } = req.body;
+        if (!email) {
+          return res.status(400).json({ error: "Email is required" });
+        }
+        const user = await this.userService.signup(email);
+        res.status(201).json(user);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to create user";
+        res.status(400).json({ error: message });
+      }
+    });
+
     // GET /api/users/:id
     this.router.get("/:id", async (req: Request, res: Response) => {
       try {
         const id = getString(req.params.id);
         const user = await this.userService.getById(id);
+        if (!user) {
+          return res.status(404).json({ error: "User not found" });
+        }
         res.json(user);
       } catch (error) {
-        res.status(500).json({ error: "Failed to fetch user" });
+        const message = error instanceof Error ? error.message : "Failed to fetch user";
+        res.status(500).json({ error: message });
       }
     });
 
@@ -29,7 +48,8 @@ export class UserRouter {
         const updated = await this.userService.updateProfile(id, req.body);
         res.json(updated);
       } catch (error) {
-        res.status(500).json({ error: "Failed to update user" });
+        const message = error instanceof Error ? error.message : "Failed to update user";
+        res.status(500).json({ error: message });
       }
     });
 
@@ -40,7 +60,8 @@ export class UserRouter {
         await this.userService.delete(id);
         res.json({ message: "User deleted" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to delete user" });
+        const message = error instanceof Error ? error.message : "Failed to delete user";
+        res.status(500).json({ error: message });
       }
     });
   }

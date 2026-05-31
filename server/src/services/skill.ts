@@ -65,4 +65,34 @@ export class SkillService {
 
         return this.skillStore.unlinkFromApplication(appId, skillId);
     }
+
+    async getFrequencyStats(userId: string): Promise<Array<{ skill: Skill; count: number; percentage: number }>> {
+        const applications = await this.applicationStore.findAllByUser(userId);
+        const totalApps = applications.length;
+
+        if (totalApps === 0) {
+            return [];
+        }
+
+        const skillCounts = new Map<string, { skill: Skill; count: number }>();
+
+        for (const app of applications) {
+            const skills = await this.skillStore.findAllByApplication(app.app_id);
+            for (const skill of skills) {
+                if (!skillCounts.has(skill.skill_id)) {
+                    skillCounts.set(skill.skill_id, { skill, count: 0 });
+                }
+                const entry = skillCounts.get(skill.skill_id)!;
+                entry.count++;
+            }
+        }
+
+        return Array.from(skillCounts.values())
+            .map(({ skill, count }) => ({
+                skill,
+                count,
+                percentage: Math.round((count / totalApps) * 100),
+            }))
+            .sort((a, b) => b.count - a.count);
+    }
 }

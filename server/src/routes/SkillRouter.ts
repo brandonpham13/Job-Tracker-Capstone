@@ -15,57 +15,73 @@ export class SkillRouter {
     this.router.get("/", async (req: Request, res: Response) => {
       try {
         const userId = getString(req.query.userId);
-        const skills = await this.skillService.list(userId);
+        const skills = await this.skillService.list();
         res.json(skills);
       } catch (error) {
-        res.status(500).json({ error: "Failed to fetch skills" });
+        const message = error instanceof Error ? error.message : "Failed to fetch skills";
+        res.status(500).json({ error: message });
+      }
+    });
+
+    // GET /api/skills/frequency/:userId (get frequency stats for user)
+    this.router.get("/frequency/:userId", async (req: Request, res: Response) => {
+      try {
+        const userId = getString(req.params.userId);
+        const stats = await this.skillService.getFrequencyStats(userId);
+        res.json(stats);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to fetch skill frequency stats";
+        res.status(500).json({ error: message });
       }
     });
 
     // GET /api/skills/:id
     this.router.get("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
         const id = getString(req.params.id);
-        const skill = await this.skillService.getById(userId, id);
+        const skill = await this.skillService.getById(id);
+        if (!skill) {
+          return res.status(404).json({ error: "Skill not found" });
+        }
         res.json(skill);
       } catch (error) {
-        res.status(500).json({ error: "Failed to fetch skill" });
+        const message = error instanceof Error ? error.message : "Failed to fetch skill";
+        res.status(500).json({ error: message });
       }
     });
 
     // POST /api/skills
     this.router.post("/", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.body.userId);
-        const skill = await this.skillService.create(userId, req.body);
+        const skill = await this.skillService.create(req.body);
         res.status(201).json(skill);
       } catch (error) {
-        res.status(500).json({ error: "Failed to create skill" });
+        const message = error instanceof Error ? error.message : "Failed to create skill";
+        res.status(400).json({ error: message });
       }
     });
 
     // PUT /api/skills/:id
     this.router.put("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.body.userId);
         const id = getString(req.params.id);
-        const updated = await this.skillService.update(userId, id, req.body);
+        const updated = await this.skillService.update(id, req.body);
         res.json(updated);
       } catch (error) {
-        res.status(500).json({ error: "Failed to update skill" });
+        const message = error instanceof Error ? error.message : "Failed to update skill";
+        res.status(500).json({ error: message });
       }
     });
 
     // DELETE /api/skills/:id
     this.router.delete("/:id", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
         const id = getString(req.params.id);
-        await this.skillService.delete(userId, id);
+        await this.skillService.delete(id);
         res.json({ message: "Skill deleted" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to delete skill" });
+        const message = error instanceof Error ? error.message : "Failed to delete skill";
+        res.status(500).json({ error: message });
       }
     });
 
@@ -75,10 +91,14 @@ export class SkillRouter {
         const userId = getString(req.body.userId);
         const appId = getString(req.params.appId);
         const skillId = getString(req.params.skillId);
+        if (!userId) {
+          return res.status(400).json({ error: "User ID is required" });
+        }
         await this.skillService.attachToApplication(userId, appId, skillId);
         res.json({ message: "Skill attached to application" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to attach skill to application" });
+        const message = error instanceof Error ? error.message : "Failed to attach skill to application";
+        res.status(500).json({ error: message });
       }
     });
 
@@ -88,10 +108,14 @@ export class SkillRouter {
         const userId = getString(req.query.userId);
         const appId = getString(req.params.appId);
         const skillId = getString(req.params.skillId);
+        if (!userId) {
+          return res.status(400).json({ error: "User ID is required" });
+        }
         await this.skillService.detachFromApplication(userId, appId, skillId);
         res.json({ message: "Skill detached from application" });
       } catch (error) {
-        res.status(500).json({ error: "Failed to detach skill from application" });
+        const message = error instanceof Error ? error.message : "Failed to detach skill from application";
+        res.status(500).json({ error: message });
       }
     });
   }
