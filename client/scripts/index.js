@@ -13,6 +13,13 @@ const registrationPage = document.querySelector(".login");
 const trendsPage = document.querySelector(".summary-data");
 const skillsPage = document.querySelector(".my-skills");
 
+// Registration page initialization
+if (registrationPage) {
+  import("./pages/registration.js").then((m) => {
+    m.initRegistrationPage();
+  });
+}
+
 if (applicationsPage) {
   import("./pages/applications.js").then((m) => {
     m.initApplicationsPage();

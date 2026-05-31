@@ -71,12 +71,46 @@ export const SkillsAPI = {
       method: "DELETE",
     });
   },
+
+  getFrequencyStats(userId) {
+    return request(`/skills/frequency/${userId}`);
+  },
+};
+
+export const UsersAPI = {
+  signup(email, displayName) {
+    return request(`/users`, {
+      method: "POST",
+      body: JSON.stringify({ email, displayName }),
+    });
+  },
+
+  getProfile(userId) {
+    return request(`/users/${userId}`);
+  },
+
+  updateProfile(userId, data) {
+    return request(`/users/${userId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  },
+
+  delete(userId) {
+    return request(`/users/${userId}`, {
+      method: "DELETE",
+    });
+  },
 };
 
 export function getCurrentUserId() {
-  return localStorage.getItem("userId") || "demo-user";
+  return localStorage.getItem("userId") || null;
 }
 
 export function setCurrentUserId(id) {
   localStorage.setItem("userId", id);
+}
+
+export function clearCurrentUserId() {
+  localStorage.removeItem("userId");
 }

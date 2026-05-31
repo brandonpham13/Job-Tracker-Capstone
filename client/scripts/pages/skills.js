@@ -15,7 +15,7 @@ export function initSkillsPage() {
 
   let selectedSkillId = null;
 
-  async function loadSKills() {
+  async function loadSkills() {
     const userId = getCurrentUserId();
     const skills = await SkillsAPI.list(userId);
 
@@ -78,3 +78,4 @@ export function initSkillsPage() {
 
   loadSkills();
 }
+
