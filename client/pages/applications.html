@@ -64,6 +64,69 @@
         </div>
       </div>
 
+      <div class="detail-overlay hidden">
+        <div class="detail-content">
+          <h2>Application Details</h2>
+          <form class="application-detail-form">
+            <div class="detail-form-row">
+              <label for="modal-role">Position Name</label>
+              <input id="modal-role" type="text" required placeholder="Position Name" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-company">Organization</label>
+              <input id="modal-company" type="text" placeholder="Company or Organization" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-status">Status</label>
+              <select id="modal-status">
+                <option value="">Select a status</option>
+                <option value="APPLIED">Applied</option>
+                <option value="INTERVIEWING">Interviewing</option>
+                <option value="OFFER">Offer</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="ACCEPTED">Accepted</option>
+                <option value="WITHDRAWN">Withdrawn</option>
+              </select>
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-date">Application Date</label>
+              <input id="modal-date" type="datetime-local" />
+            </div>
+            <p>Required Skills</p>
+            <div class="detail-form-row">
+              <label for="modal-skill-1">Skill 1</label>
+              <input id="modal-skill-1" type="text" placeholder="skill" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-skill-2">Skill 2</label>
+              <input id="modal-skill-2" type="text" placeholder="skill" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-skill-3">Skill 3</label>
+              <input id="modal-skill-3" type="text" placeholder="skill" />
+            </div>
+            <p>Useful Contacts</p>
+            <div class="detail-form-row">
+              <label for="modal-contact-1">Contact 1</label>
+              <input id="modal-contact-1" type="text" placeholder="contact name" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-contact-2">Contact 2</label>
+              <input id="modal-contact-2" type="text" placeholder="contact name" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-contact-3">Contact 3</label>
+              <input id="modal-contact-3" type="text" placeholder="contact name" />
+            </div>
+            <div class="detail-modal-actions">
+              <button type="submit" class="secondary-btn modal-save-btn">Save Changes</button>
+              <button type="button" class="modal-delete-btn">Delete</button>
+              <button type="button" class="primary-btn modal-cancel-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <div class="filter-sort-overlay hidden">
         <div class="filter-sort-content">
           <p>Sorting</p>

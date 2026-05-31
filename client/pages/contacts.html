@@ -63,6 +63,35 @@
         </div>
       </div>
 
+      <div class="detail-overlay hidden">
+        <div class="detail-content">
+          <h2>Contact Details</h2>
+          <form class="contact-detail-form">
+            <div class="detail-form-row">
+              <label for="modal-name">Contact Name</label>
+              <input id="modal-name" type="text" required placeholder="Contact Name" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-linkedin">LinkedIn</label>
+              <input id="modal-linkedin" type="url" placeholder="LinkedIn URL" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-last-contact">Last Contacted</label>
+              <input id="modal-last-contact" type="datetime-local" />
+            </div>
+            <div class="detail-form-row">
+              <label for="modal-notes">Notes</label>
+              <textarea id="modal-notes" placeholder="Notes"></textarea>
+            </div>
+            <div class="detail-modal-actions">
+              <button type="submit" class="secondary-btn modal-save-btn">Save Changes</button>
+              <button type="button" class="modal-delete-btn">Delete</button>
+              <button type="button" class="primary-btn modal-cancel-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <div class="filter-sort-overlay hidden">
         <div class="filter-sort-content">
           <p>Select the filters you would like to apply.</p>

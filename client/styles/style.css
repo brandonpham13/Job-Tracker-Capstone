@@ -144,6 +144,15 @@ button {
   margin: 0;
 }
 
+.edit-btn {
+  background-color: transparent;
+  border: none;
+  margin: 0 0 0 6px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .new-application-btn,
 .new-skill-btn,
 .new-contact-btn,
@@ -246,7 +255,8 @@ form {
 .edit-skill-form-row,
 .add-contact-form-row,
 .edit-contact-form-row,
-.filter-sort-modal-row {
+.filter-sort-modal-row,
+.detail-form-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -364,7 +374,8 @@ select {
 .deleted-overlay,
 .success-overlay,
 .filter-sort-overlay,
-.select-data-overlay {
+.select-data-overlay,
+.detail-overlay {
   position: fixed;
   inset: 0;
   background: var(--overlay-bg);
@@ -377,7 +388,8 @@ select {
 .success-content,
 .deleted-content,
 .filter-sort-content,
-.select-data-content {
+.select-data-content,
+.detail-content {
   background: var(--panel-bg);
   padding: 20px 40px;
   text-align: center;
@@ -458,4 +470,60 @@ select {
 ========================= */
 .trends li {
   padding: 5px;
+}
+
+/* =========================
+   Detail / Edit Modal
+========================= */
+
+.detail-content {
+  width: 60%;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.detail-content h2 {
+  margin-bottom: 10px;
+}
+
+.detail-content p {
+  width: 100%;
+  text-align: left;
+  margin: 6px 0 2px;
+}
+
+.detail-form-row label {
+  width: 35%;
+  text-align: left;
+  font-size: 18px;
+}
+
+.detail-form-row input,
+.detail-form-row select {
+  width: 60%;
+  height: 35px;
+}
+
+.detail-form-row textarea {
+  width: 60%;
+  height: 90px;
+}
+
+.detail-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.detail-modal-actions button {
+  flex: 1;
+  margin: 0;
+  width: auto;
+  height: 35px;
+}
+
+.modal-delete-btn {
+  background-color: #c0392b;
+  border-color: #922b21;
 }

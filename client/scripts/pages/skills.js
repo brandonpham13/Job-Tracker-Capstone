@@ -3,7 +3,6 @@ import { SkillsAPI, getCurrentUserId } from "../api/fetch_api.js";
 export function initSkillsPage() {
   const tableBody = document.querySelector("#skills-table");
   const deletedOverlay = document.querySelector(".deleted-overlay");
-  const deleteButton = document.querySelector(".delete-btn");
   const confirmDelete = document.querySelector(".confirm-delete");
   const cancelDelete = document.querySelector(".cancel-delete");
   const filterSortOverlay = document.querySelector(".filter-sort-overlay");
@@ -12,6 +11,10 @@ export function initSkillsPage() {
   const submitFilters = document.querySelector(".submit-filters");
   const sortSelect = document.querySelector("#sort-select");
   const categorySelect = document.querySelector("#category-select");
+  const detailOverlay = document.querySelector(".detail-overlay");
+  const detailForm = document.querySelector(".skill-detail-form");
+  const modalDeleteBtn = document.querySelector(".modal-delete-btn");
+  const modalCancelBtn = document.querySelector(".modal-cancel-btn");
 
   if (!tableBody) return;
 
@@ -33,19 +36,15 @@ export function initSkillsPage() {
     tableBody.innerHTML = skills
       .map(
         (skill) => `
-    <tr>
-      <td><button class="delete-btn" data-id="${skill.skill_id}"><i class="fa-solid fa-trash"></i></button></td>
-      <td>
-        <a
-          href="edit-view-skill.html?id=${skill.skill_id}"
-          class="skill-link"
-        >
-          ${skill.skill_name}
-        </a>
-      </td>
-      <td>${skill.category ?? ""}</td>
-    </tr>
-  `,
+      <tr>
+        <td>
+          <button class="delete-btn" data-id="${skill.skill_id}"><i class="fa-solid fa-trash"></i></button>
+          <button class="edit-btn" data-id="${skill.skill_id}"><i class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+        <td>${skill.skill_name}</td>
+        <td>${skill.category ?? ""}</td>
+      </tr>
+    `,
       )
       .join("");
   }
@@ -56,9 +55,9 @@ export function initSkillsPage() {
     ];
 
     categorySelect.innerHTML = `
-    <option value="">Select an option</option>
-    ${categories.map((c) => `<option value="${c}">${c}</option>`).join("")}
-  `;
+      <option value="">Select an option</option>
+      ${categories.map((c) => `<option value="${c}">${c}</option>`).join("")}
+    `;
   }
 
   async function loadSkills() {
@@ -68,12 +67,32 @@ export function initSkillsPage() {
     renderSkills();
   }
 
-  tableBody.addEventListener("click", (e) => {
-    const btn = e.target.closest(".delete-btn");
-    if (!btn) return;
+  async function openDetailModal(skillId) {
+    selectedSkillId = skillId;
+    try {
+      const userId = getCurrentUserId();
+      const skill = await SkillsAPI.getById(skillId, userId);
 
-    selectedSkillId = btn.dataset.id;
-    deletedOverlay.classList.remove("hidden");
+      document.querySelector("#modal-skill-name").value =
+        skill.skill_name || "";
+      document.querySelector("#modal-category").value = skill.category || "";
+
+      detailOverlay.classList.remove("hidden");
+    } catch (err) {
+      console.error("Failed loading skill:", err);
+    }
+  }
+
+  tableBody.addEventListener("click", (e) => {
+    const deleteBtn = e.target.closest(".delete-btn");
+    const editBtn = e.target.closest(".edit-btn");
+
+    if (deleteBtn) {
+      selectedSkillId = deleteBtn.dataset.id;
+      deletedOverlay.classList.remove("hidden");
+    } else if (editBtn) {
+      openDetailModal(editBtn.dataset.id);
+    }
   });
 
   filterSortButton.addEventListener("click", () => {
@@ -90,6 +109,7 @@ export function initSkillsPage() {
       await SkillsAPI.delete(selectedSkillId, userId);
       selectedSkillId = null;
       deletedOverlay.classList.add("hidden");
+      detailOverlay.classList.add("hidden");
       await loadSkills();
     } catch (err) {
       console.error("Delete failed:", err);
@@ -98,8 +118,37 @@ export function initSkillsPage() {
 
   cancelDelete.addEventListener("click", (e) => {
     e.preventDefault();
-    selectedSkillId = null;
     deletedOverlay.classList.add("hidden");
+  });
+
+  detailForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (!selectedSkillId) return;
+
+    const userId = getCurrentUserId();
+    const updatedData = {
+      skill_name: document.querySelector("#modal-skill-name").value,
+      category: document.querySelector("#modal-category").value,
+    };
+
+    try {
+      await SkillsAPI.update(selectedSkillId, userId, updatedData);
+      detailOverlay.classList.add("hidden");
+      await loadSkills();
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
+  });
+
+  modalDeleteBtn.addEventListener("click", () => {
+    detailOverlay.classList.add("hidden");
+    deletedOverlay.classList.remove("hidden");
+  });
+
+  modalCancelBtn.addEventListener("click", () => {
+    selectedSkillId = null;
+    detailOverlay.classList.add("hidden");
   });
 
   clearFilters.addEventListener("click", (e) => {
