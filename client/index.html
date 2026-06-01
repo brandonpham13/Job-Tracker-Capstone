@@ -44,14 +44,24 @@
         await Auth.init();
         const clerk = await Auth.ready;
 
+        // If already signed in, skip the sign-in widget entirely.
+        if (clerk.user) {
+          localStorage.setItem("userId", clerk.user.id);
+          window.location.href = "/pages/home.html";
+          return;
+        }
+
         const container = document.getElementById("sign-in-container");
         container.innerHTML = "";
-        clerk.mountSignIn(container);
+        // Let Clerk own the post-sign-in redirect so the session is fully
+        // established before the next page loads.
+        clerk.mountSignIn(container, {
+          afterSignInUrl: "/pages/home.html",
+        });
 
         clerk.addListener(({ user }) => {
           if (user) {
             localStorage.setItem("userId", user.id);
-            window.location.href = "/pages/home.html";
           }
         });
       })();
