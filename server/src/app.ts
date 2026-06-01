@@ -17,12 +17,18 @@ const container = new Container(prisma);
 app.use(express.json());
 app.use(clerkMiddleware());
 
-// Serve static client files
+// Serve static assets (CSS, images, etc.)
 const clientPath = path.join(process.cwd(), "../client");
-app.use(express.static(clientPath));
+app.use(express.static(path.join(clientPath, "styles")));
+app.use(express.static(path.join(clientPath, "images")));
 
+// Serve HTML pages
+const pagesPath = path.join(clientPath, "pages");
+app.use(express.static(pagesPath));
+
+// Serve index.html for root
 app.get("/", (_req: Request, res: Response) => {
-  res.sendFile(path.join(clientPath, "index.html"));
+  res.sendFile(path.join(pagesPath, "index.html"));
 });
 
 app.get("/health", (_req: Request, res: Response) => {

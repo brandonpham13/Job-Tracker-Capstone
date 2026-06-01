@@ -19,6 +19,9 @@ export function initSkillsPage() {
   let allSkills = [];
   let filters = { category: "", sortBy: "" };
 
+  async function loadSkills() {
+    const userId = getCurrentUserId();
+    const skills = await SkillsAPI.list(userId);
   function renderSkills() {
     let skills = [...allSkills];
 
@@ -129,3 +132,4 @@ export function initSkillsPage() {
 
   loadSkills();
 }
+

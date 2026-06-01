@@ -1,76 +1,43 @@
-import {
-  ApplicationsAPI,
-  ApplicationSkillsAPI,
-  SkillsAPI,
-  getCurrentUserId,
-} from "../api/fetch_api.js";
+import { SkillsAPI, getCurrentUserId } from "../api/fetch_api.js";
 
 export async function initTrendsPage() {
-  const userId = getCurrentUserId();
-
-  const trendListItems = document.querySelector(".summary-data ul");
-  if (!trendListItems) return;
+  const trendsContainer = document.querySelector(".summary-data");
+  if (!trendsContainer) return;
 
   try {
-    const [applications, allSkills] = await Promise.all([
-      ApplicationsAPI.list(userId),
-      SkillsAPI.list(userId),
-    ]);
-
-    const totalApps = applications.length;
-
-    if (totalApps === 0) {
-      trendListItems.innerHTML = "<li>No applications yet.</li>";
+    const userId = getCurrentUserId();
+    if (!userId) {
+      trendsContainer.innerHTML = "<p>Please log in to view trends.</p>";
       return;
     }
 
-    const skillCounts = {};
-
-    for (const app of applications) {
-      const appSkills = await ApplicationSkillsAPI.listByApplication(
-        app.app_id,
-      );
-
-      const seenInApp = new Set();
-
-      for (const s of appSkills) {
-        const name = s.skill?.skill_name || s.skill_name;
-        if (!name) continue;
-
-        if (!seenInApp.has(name)) {
-          skillCounts[name] = (skillCounts[name] || 0) + 1;
-          seenInApp.add(name);
-        }
-      }
+    const stats = await SkillsAPI.getFrequencyStats(userId);
+    
+    if (!stats || stats.length === 0) {
+      trendsContainer.innerHTML = "<p>No skill frequency data available yet.</p>";
+      return;
     }
 
-    const merged = allSkills.map((skill) => {
-      const count = skillCounts[skill.skill_name] || 0;
-
-      return {
-        name: skill.skill_name,
-        count,
-        percent: ((count / totalApps) * 100).toFixed(0),
-      };
-    });
-
-    merged.sort((a, b) => b.count - a.count);
-
-    trendListItems.innerHTML = "";
-
-    for (const skill of merged) {
-      const li = document.createElement("li");
-
-      if (skill.count === 0) {
-        li.textContent = `${skill.name} is not used in any applications`;
-      } else {
-        li.textContent = `${skill.name} is noted in ${skill.percent}% of your applications`;
-      }
-
-      trendListItems.appendChild(li);
-    }
+    // Create a summary section
+    const html = `
+      <h2>Skill Frequency Analytics</h2>
+      <div class="trends-summary">
+        ${stats.map(stat => `
+          <div class="trend-item">
+            <h3>${stat.skill}</h3>
+            <p>Appears in <strong>${stat.count}</strong> application${stat.count !== 1 ? 's' : ''}</p>
+            <div class="trend-bar">
+              <div class="trend-fill" style="width: ${stat.percentage}%"></div>
+            </div>
+            <span class="trend-percentage">${stat.percentage.toFixed(1)}%</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    
+    trendsContainer.innerHTML = html;
   } catch (err) {
     console.error("Failed to load trends:", err);
-    trendListItems.innerHTML = "<li>Failed to load trends.</li>";
+    trendsContainer.innerHTML = `<p>Error loading trends: ${err.message}</p>`;
   }
 }

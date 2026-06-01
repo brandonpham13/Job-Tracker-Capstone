@@ -11,10 +11,17 @@ export class JobRouter {
     }
 
     private setupRoutes() {
-        // GET /api/applications
+        // GET /api/applications?userId=...&status=...&sortBy=date
         this.router.get("/", async (req: Request, res: Response) => {
             try {
-                const applications = await this.applicationService.list(req.userId!);
+                const userId = getString(req.query.userId);
+                const status = req.query.status as any;
+                const sortBy = getString(req.query.sortBy);
+                
+                if (!userId) {
+                    return res.status(400).json({ error: "User ID is required" });
+                }
+                const applications = await this.applicationService.list(userId, status, sortBy || undefined);
                 res.json(applications);
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Failed to fetch applications";
@@ -72,6 +79,28 @@ export class JobRouter {
                 res.json(updated);
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Failed to update application";
+                res.status(500).json({ error: message });
+            }
+        });
+
+        // PATCH /api/applications/:id/status - Update only the status
+        this.router.patch("/:id/status", async (req: Request, res: Response) => {
+            try {
+                const userId = getString(req.body.userId);
+                const id = getString(req.params.id);
+                const { status } = req.body;
+                
+                if (!userId) {
+                    return res.status(400).json({ error: "User ID is required" });
+                }
+                if (!status) {
+                    return res.status(400).json({ error: "Status is required" });
+                }
+                
+                const updated = await this.applicationService.updateStatus(userId, id, status);
+                res.json(updated);
+            } catch (error) {
+                const message = error instanceof Error ? error.message : "Failed to update application status";
                 res.status(500).json({ error: message });
             }
         });

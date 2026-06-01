@@ -1,4 +1,4 @@
-import type { PrismaClient, Application } from "@prisma/client";
+import type { PrismaClient, Application, ApplicationStatus } from "@prisma/client";
 
 export class ApplicationStore {
     constructor(private readonly prisma: PrismaClient) { }
@@ -9,6 +9,15 @@ export class ApplicationStore {
 
     async findAllByUser(userId: string): Promise<Application[]> {
         return this.prisma.application.findMany({ where: { user_id: userId } });
+    }
+
+    async findByUserAndStatus(userId: string, status: ApplicationStatus): Promise<Application[]> {
+        return this.prisma.application.findMany({ where: { user_id: userId, status } });
+    }
+
+    async findByUserWithSort(userId: string, sortBy?: string): Promise<Application[]> {
+        const orderBy = sortBy === "date" ? { application_date: "desc" as const } : { created_at: "desc" as const };
+        return this.prisma.application.findMany({ where: { user_id: userId }, orderBy });
     }
 
     async create(data: Omit<Application, "app_id" | "created_at">): Promise<Application> {

@@ -111,58 +111,45 @@ export const SkillsAPI = {
     });
   },
 
-  getById(id, userId) {
-    return request(`/skills/${id}?userId=${userId}`);
+  getFrequencyStats(userId) {
+    return request(`/skills/frequency/${userId}`);
+  },
+};
+
+export const UsersAPI = {
+  signup(email, displayName) {
+    return request(`/users`, {
+      method: "POST",
+      body: JSON.stringify({ email, displayName }),
+    });
   },
 
-  update(id, userId, data) {
-    return request(`/skills/${id}?userId=${userId}`, {
+  getProfile(userId) {
+    return request(`/users/${userId}`);
+  },
+
+  updateProfile(userId, data) {
+    return request(`/users/${userId}`, {
       method: "PUT",
       body: JSON.stringify(data),
     });
   },
-};
 
-export const ApplicationSkillsAPI = {
-  listByApplication(appId) {
-    return request(`/application-skills/${appId}`);
-  },
-
-  create(appId, skillId) {
-    return request(`/application-skills/${appId}/${skillId}`, {
-      method: "POST",
-    });
-  },
-
-  delete(appId, skillId) {
-    return request(`/application-skills/${appId}/${skillId}`, {
-      method: "DELETE",
-    });
-  },
-};
-
-export const ApplicationContactsAPI = {
-  listByApplication(appId) {
-    return request(`/application-contacts/${appId}`);
-  },
-
-  create(appId, contactId) {
-    return request(`/application-contacts/${appId}/${contactId}`, {
-      method: "POST",
-    });
-  },
-
-  delete(appId, contactId) {
-    return request(`/application-contacts/${appId}/${contactId}`, {
+  delete(userId) {
+    return request(`/users/${userId}`, {
       method: "DELETE",
     });
   },
 };
 
 export function getCurrentUserId() {
-  return localStorage.getItem("userId");
+  return localStorage.getItem("userId") || null;
 }
 
 export function setCurrentUserId(id) {
   return localStorage.setItem("userId", id);
+}
+
+export function clearCurrentUserId() {
+  localStorage.removeItem("userId");
 }

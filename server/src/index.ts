@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
-import path from "path";
+import "dotenv/config";
+import { prisma } from "./db.js";
+import { app } from "./app.js";
 
 dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 dotenv.config();
