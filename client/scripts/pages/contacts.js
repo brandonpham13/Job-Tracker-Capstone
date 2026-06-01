@@ -7,28 +7,64 @@ export function initContactsPage() {
   const confirmDelete = document.querySelector(".confirm-delete");
   const cancelDelete = document.querySelector(".cancel-delete");
   const filterSortOverlay = document.querySelector(".filter-sort-overlay");
-  const filterSortButton = document.querySelector(".filter-sort-btn");
+  const filterSortButton = document.querySelector(".filter-contacts");
   const clearFilters = document.querySelector(".clear-filters");
   const submitFilters = document.querySelector(".submit-filters");
+  const sortSelect = document.querySelector("#sort-select");
+  const filterSelect = document.querySelector("#filter-select");
 
   if (!tableBody) return;
 
   let selectedContactId = null;
+  let allContacts = [];
+  let filters = { sortBy: "", filterBy: "" };
 
-  async function loadContacts() {
-    const userId = getCurrentUserId();
-    const contacts = await ContactsAPI.list(userId);
+  function renderContacts() {
+    let contacts = [...allContacts];
+
+    if (filters.filterBy === "notes") {
+      contacts = contacts.filter((c) => c.notes && c.notes.trim() !== "");
+    }
+
+    if (filters.filterBy === "no-notes") {
+      contacts = contacts.filter((c) => !c.notes || c.notes.trim() === "");
+    }
+
+    if (filters.sortBy === "name") {
+      contacts.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+    }
+
+    if (filters.sortBy === "last-contact-date") {
+      contacts.sort(
+        (a, b) =>
+          new Date(b.last_contact_date || 0) -
+          new Date(a.last_contact_date || 0),
+      );
+    }
 
     tableBody.innerHTML = contacts
       .map(
         (contact) => `
     <tr>
-      <td><button class="delete-btn" data-id="${contact.id}"><i class="fa-solid fa-trash"></i></button></td>
-      <td>${contact.name}</td>
+      <td><button class="delete-btn" data-id="${contact.contact_id}"><i class="fa-solid fa-trash"></i></button></td>
+      <td>
+        <a
+          href="edit-view-contact.html?id=${contact.contact_id}"
+          class="contact-link"
+        >
+          ${contact.name}
+        </a>
+      </td>
     </tr>
   `,
       )
       .join("");
+  }
+
+  async function loadContacts() {
+    const userId = getCurrentUserId();
+    allContacts = await ContactsAPI.list(userId);
+    renderContacts();
   }
 
   tableBody.addEventListener("click", (e) => {
@@ -67,12 +103,23 @@ export function initContactsPage() {
 
   clearFilters.addEventListener("click", (e) => {
     e.preventDefault();
+    filters = { location: "", organization: "" };
+
+    locationSelect.value = "";
+    organizationSelect.value = "";
     filterSortOverlay.classList.add("hidden");
+
+    renderContacts();
   });
 
   submitFilters.addEventListener("click", (e) => {
     e.preventDefault();
+
+    filters.sortBy = sortSelect.value || "";
+    filters.filterBy = filterSelect.value || "";
+
     filterSortOverlay.classList.add("hidden");
+    renderContacts();
   });
 
   loadContacts();

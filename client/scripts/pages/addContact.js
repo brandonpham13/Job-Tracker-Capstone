@@ -3,19 +3,14 @@ import { ContactsAPI, getCurrentUserId } from "../api/fetch_api.js";
 export function initAddContactsPage() {
   const contactForm = document.querySelector(".add-contact-form");
   const successOverlay = document.querySelector(".success-overlay");
-  const closeModal = document.querySelector(".close-modal");
+  const submitAnother = document.querySelector(".submit-another");
 
-  if (!contactForm || !successOverlay || !closeModal) return;
+  if (!contactForm || !successOverlay) return;
 
-  function showSuccess() {
-    successOverlay.classList.remove("hidden");
-  }
-
-  function hideSuccess() {
+  submitAnother.addEventListener("click", () => {
     successOverlay.classList.add("hidden");
-  }
-
-  closeModal.addEventListener("click", hideSuccess);
+    contactForm.reset();
+  });
 
   contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -25,17 +20,17 @@ export function initAddContactsPage() {
 
     const payload = {
       name: formData.get("name"),
+      linkedin_url: formData.get("linkedin_url") || null,
+      last_contact_date: formData.get("last_contact_date") || null,
+      notes: formData.get("notes") || null,
     };
 
     try {
       await ContactsAPI.create(userId, payload);
-
-      contactForm.reset();
-      showSuccess();
+      successOverlay.classList.remove("hidden");
     } catch (err) {
       console.error("Failed to create contact:", err);
       alert("Could not create contact. Try again.");
     }
   });
-  closeModal.addEventListener("click", hideSuccess);
 }

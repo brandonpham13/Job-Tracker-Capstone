@@ -17,6 +17,10 @@ export class UserService {
         return this.userStore.findById(id);
     }
 
+    async getOrCreateByClerkId(clerkId: string, email: string): Promise<User> {
+        return this.userStore.upsertByClerkId(clerkId, email);
+    }
+
     async updateProfile(id: string, updates: Partial<Pick<User, "email">>): Promise<User> {
         const user = await this.userStore.findById(id);
         if (!user) {

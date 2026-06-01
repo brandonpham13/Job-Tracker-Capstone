@@ -1,11 +1,12 @@
 const API_BASE = "/api";
 
 async function request(path, options = {}) {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await window.Auth.apiFetch(`${API_BASE}${path}`, {
+    ...options,
     headers: {
       "Content-Type": "application/json",
+      ...(options.headers || {}),
     },
-    ...options,
   });
 
   if (!res.ok) {
@@ -24,13 +25,24 @@ export const ApplicationsAPI = {
   create(userId, data) {
     return request(`/applications`, {
       method: "POST",
-      body: JSON.stringify({ userId, ...data }),
+      body: JSON.stringify(data),
     });
   },
 
   delete(id, userId) {
     return request(`/applications/${id}?userId=${userId}`, {
       method: "DELETE",
+    });
+  },
+
+  getById(id, userId) {
+    return request(`/applications/${id}?userId=${userId}`);
+  },
+
+  update(id, userId, data) {
+    return request(`/applications/${id}?userId=${userId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
     });
   },
 };
@@ -40,16 +52,35 @@ export const ContactsAPI = {
     return request(`/contacts?userId=${userId}`);
   },
 
+  async findByName(userId, contactName) {
+    const contacts = await request(`/contacts?userId=${userId}`);
+
+    return contacts.find(
+      (contact) => contact.name.toLowerCase() === contactName.toLowerCase(),
+    );
+  },
+
   create(userId, data) {
     return request(`/contacts`, {
       method: "POST",
-      body: JSON.stringify({ userId, ...data }),
+      body: JSON.stringify(data),
     });
   },
 
   delete(id, userId) {
     return request(`/contacts/${id}?userId=${userId}`, {
       method: "DELETE",
+    });
+  },
+
+  getById(id, userId) {
+    return request(`/contacts/${id}?userId=${userId}`);
+  },
+
+  update(id, userId, data) {
+    return request(`/contacts/${id}?userId=${userId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
     });
   },
 };
@@ -59,10 +90,18 @@ export const SkillsAPI = {
     return request(`/skills?userId=${userId}`);
   },
 
+  async findByName(userId, skillName) {
+    const skills = await request(`/skills?userId=${userId}`);
+
+    return skills.find(
+      (skill) => skill.skill_name.toLowerCase() === skillName.toLowerCase(),
+    );
+  },
+
   create(userId, data) {
     return request(`/skills`, {
       method: "POST",
-      body: JSON.stringify({ userId, ...data }),
+      body: JSON.stringify(data),
     });
   },
 
@@ -108,7 +147,7 @@ export function getCurrentUserId() {
 }
 
 export function setCurrentUserId(id) {
-  localStorage.setItem("userId", id);
+  return localStorage.setItem("userId", id);
 }
 
 export function clearCurrentUserId() {

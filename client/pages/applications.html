@@ -25,7 +25,7 @@
           <li><a href="contacts.html">Contacts</a></li>
           <li><a href="skills.html">Skills</a></li>
           <li><a href="trends.html">Trends</a></li>
-          <li><a href="index.html">Logout</a></li>
+          <li><a href="#" id="logout-btn">Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -70,43 +70,43 @@
           <form>
             <div class="filter-sort-modal-row">
               <label>Sort by:</label>
-              <select>
+              <select id="sort-select">
                 <option value="">Select an option</option>
-                <option value="location">Location</option>
-                <option value="type">Position Type</option>
                 <option value="status">Status</option>
-                <option value="appliedAt">Date Applied</option>
+                <option value="organization">Organization</option>
+                <option value="position-name">Position</option>
               </select>
             </div>
             <p>Select the filters you would like to apply.</p>
             <div class="filter-sort-modal-row">
               <label>Job Status:</label>
-              <select>
+              <select id="filter-status-select">
                 <option value="">Select a status</option>
-                <option value="saved">Saved</option>
-                <option value="applied">Applied</option>
-                <option value="interviewing">Interviewing</option>
-                <option value="offer">Offer</option>
-                <option value="rejected">Rejected</option>
-                <option value="accepted">Accepted</option>
-                <option value="withdrawn">Withdrawn</option>
+                <option value="APPLIED">Applied</option>
+                <option value="INTERVIEWING">Interviewing</option>
+                <option value="Offer">Offer</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="ACCEPTED">Accepted</option>
+                <option value="WITHDRAWN">Withdrawn</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
               <label>Skill:</label>
-              <select>
+              <select id="filter-skill-select">
                 <option value="">Select an option</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
               <label>Organization:</label>
-              <select>
+              <select id="filter-organization-select">
                 <option value="">Select an option</option>
               </select>
             </div>
             <div class="filter-sort-modal-row">
-              <button class="secondary-btn clear-filters">Clear Filters</button>
-              <button class="secondary-btn submit-filters" type="submit">
+              <button class="secondary-btn clear-filters" type="button">
+                Clear Filters
+              </button>
+              <button class="secondary-btn submit-filters" type="button">
                 Submit
               </button>
             </div>
@@ -114,6 +114,14 @@
         </div>
       </div>
     </main>
+    <script src="../scripts/auth.js"></script>
+    <script>
+      Auth.init().then(() => Auth.protect());
+      document.getElementById("logout-btn").addEventListener("click", (e) => {
+        e.preventDefault();
+        Auth.signOut();
+      });
+    </script>
     <script type="module" src="../scripts/index.js"></script>
   </body>
 </html>

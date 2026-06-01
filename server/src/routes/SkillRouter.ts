@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import { SkillService } from "../services/skill.js";
 import { getString } from "../utils/typeHelpers.js";
 
@@ -11,8 +11,8 @@ export class SkillRouter {
   }
 
   private setupRoutes() {
-    // GET /api/skills?userId=...
-    this.router.get("/", async (req: Request, res: Response) => {
+    // GET /api/skills
+    this.router.get("/", async (_req: Request, res: Response) => {
       try {
         const userId = getString(req.query.userId);
         const skills = await this.skillService.list();
@@ -53,7 +53,8 @@ export class SkillRouter {
     // POST /api/skills
     this.router.post("/", async (req: Request, res: Response) => {
       try {
-        const skill = await this.skillService.create(req.body);
+        const { skill_name, category } = req.body;
+        const skill = await this.skillService.create({ skill_name, category: category ?? null });
         res.status(201).json(skill);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Failed to create skill";
@@ -65,7 +66,8 @@ export class SkillRouter {
     this.router.put("/:id", async (req: Request, res: Response) => {
       try {
         const id = getString(req.params.id);
-        const updated = await this.skillService.update(id, req.body);
+        const { skill_name, category } = req.body;
+        const updated = await this.skillService.update(id, { skill_name, category: category ?? null });
         res.json(updated);
       } catch (error) {
         const message = error instanceof Error ? error.message : "Failed to update skill";
@@ -85,11 +87,10 @@ export class SkillRouter {
       }
     });
 
-    // POST /api/skills/:skillId/applications/:appId (attach skill to application)
-    this.router.post("/:skillId/applications/:appId", async (req: Request, res: Response) => {
+    // POST /api/skills/:skillId/jobs/:jobId
+    this.router.post("/:skillId/jobs/:jobId", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.body.userId);
-        const appId = getString(req.params.appId);
+        const jobId = getString(req.params.jobId);
         const skillId = getString(req.params.skillId);
         if (!userId) {
           return res.status(400).json({ error: "User ID is required" });
@@ -102,11 +103,10 @@ export class SkillRouter {
       }
     });
 
-    // DELETE /api/skills/:skillId/applications/:appId (detach skill from application)
-    this.router.delete("/:skillId/applications/:appId", async (req: Request, res: Response) => {
+    // DELETE /api/skills/:skillId/jobs/:jobId
+    this.router.delete("/:skillId/jobs/:jobId", async (req: Request, res: Response) => {
       try {
-        const userId = getString(req.query.userId);
-        const appId = getString(req.params.appId);
+        const jobId = getString(req.params.jobId);
         const skillId = getString(req.params.skillId);
         if (!userId) {
           return res.status(400).json({ error: "User ID is required" });

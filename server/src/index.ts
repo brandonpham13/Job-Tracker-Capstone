@@ -2,18 +2,17 @@ import "dotenv/config";
 import { prisma } from "./db.js";
 import { app } from "./app.js";
 
+dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
+dotenv.config();
+
+const { prisma } = await import("./db.js");
+const { app } = await import("./app.js");
+
 const PORT = Number(process.env.PORT) || 3000;
 
-async function start() {
-    await prisma.$connect();
-    console.log("Database connection established");
+await prisma.$connect();
+console.log("Database connection established");
 
-    app.listen(PORT, () => {
-        console.log(`Server listening on http://localhost:${PORT}`);
-    });
-}
-
-start().catch((err) => {
-    console.error("Failed to start server:", err);
-    process.exit(1);
+app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
 });
